@@ -1,0 +1,148 @@
+/* Design tokens sampled from apps.speakeasy.mobi (Flutter build) */
+@font-face {
+  font-family: 'Parkinsans';
+  src: url('/assets/fonts/Parkinsans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Parkinsans';
+  src: url('/assets/fonts/Parkinsans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Parkinsans';
+  src: url('/assets/fonts/Parkinsans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Parkinsans';
+  src: url('/assets/fonts/Parkinsans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  /* surfaces */
+  --bg: #f4f8f7;
+  --bg-outer: #f5f5f5;
+  --white: #ffffff;
+
+  /* brand */
+  --blue: #43aaef;
+  --blue-shade: #3890cb;
+  --blue-soft: #7cc4f4;
+  --blue-tint: #ecf7fd;
+  --navy: #15468a;
+  --navy-shade: #0c3172;
+  --ink: #1c4764;
+  --purple: #c68efd;
+  --purple-shade: #a967e8;
+  --purple-ink: #b67af3;
+  --violet: #8f87f1;
+  --violet-shade: #7a6fd9;
+  --orange: #ef6c00;
+  --muted: #6b7a86;
+
+  /* 3D "pressed" shadow used by every card & button in the app */
+  --lift-card: 8px;
+  --lift-btn: 4px;
+
+  --radius-card: 32px;
+  --radius-pill: 999px;
+
+  --font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Parkinsans', var(--font);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* Shared button — navy pill with bottom lift */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 28px;
+  border-radius: var(--radius-pill);
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 var(--lift-btn) 0 var(--navy-shade);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  white-space: nowrap;
+}
+.btn:hover {
+  background: #1a52a0;
+}
+.btn:active {
+  transform: translateY(var(--lift-btn));
+  box-shadow: 0 0 0 var(--navy-shade);
+}
+.btn--block {
+  width: 100%;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

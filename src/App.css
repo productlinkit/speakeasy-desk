@@ -1,0 +1,103 @@
+.app {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  align-items: start;
+  gap: 40px;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 20px 40px 56px 20px;
+}
+
+.app__main {
+  min-width: 0;
+  padding-top: 16px;
+}
+
+/* My Learning sits on a white sheet, as it does in the app */
+.app--surface .app__main {
+  padding: 32px 36px 40px;
+  border-radius: var(--radius-card);
+  background: var(--white);
+}
+
+/* chat with Renald fills the column itself — no sheet around it */
+.app--bare .app__main {
+  padding: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+@media (max-width: 1199px) {
+  .app {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 28px;
+    padding-right: 28px;
+  }
+}
+
+/* Mobile keeps the original single-column app layout */
+@media (max-width: 767px) {
+  .app {
+    display: block;
+    max-width: 430px;
+    padding: 24px 16px 136px;
+  }
+  .app__main {
+    padding-top: 0;
+  }
+  .app--surface {
+    background: var(--white);
+    min-height: 100vh;
+  }
+  .app--surface .app__main {
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+  /* the app hides the tab bar on this sub-page — back button is the way out */
+  .app--surface {
+    padding-bottom: 40px;
+  }
+  .app--surface .bottom-nav {
+    display: none;
+  }
+  /* same on the new-post composer: it covers the whole screen in the app */
+  .app--notabs {
+    padding-bottom: 40px;
+  }
+  .app--notabs .bottom-nav {
+    display: none;
+  }
+  /* the phone app runs the chat edge to edge, so the shell steps aside */
+  .app--bare {
+    padding: 0;
+  }
+  .sidebar {
+    display: none;
+  }
+  .bottom-nav {
+    display: grid;
+  }
+}
+
+.placeholder {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 64px 16px;
+  text-align: center;
+}
+.placeholder img {
+  width: 220px;
+}
+.placeholder h1 {
+  font-size: 28px;
+  font-weight: 600;
+}
+.placeholder p {
+  color: var(--muted);
+}

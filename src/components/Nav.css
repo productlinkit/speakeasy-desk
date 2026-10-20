@@ -1,0 +1,152 @@
+.nav-glyph {
+  display: block;
+  width: 26px;
+  height: 26px;
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
+
+.nav-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 2px solid var(--white);
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* ---------- Sidebar (tablet & desktop) ---------- */
+.sidebar {
+  position: sticky;
+  top: 20px;
+  /* 20px of padding above + 56px below on .app — anything else leaves the page
+     scrollable by the difference even when there is nothing to scroll to */
+  height: calc(100vh - 76px);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 20px 16px 24px;
+  border-radius: var(--radius-card);
+  background: var(--navy);
+  box-shadow: 0 var(--lift-card) 0 var(--navy-shade);
+  color: var(--white);
+}
+
+.sidebar__logo {
+  display: grid;
+  place-items: center;
+  padding: 10px 14px;
+  border-radius: 22px;
+  background: var(--white);
+}
+.sidebar__logo-full {
+  width: 150px;
+  height: auto;
+}
+.sidebar__logo-mark {
+  display: none;
+  width: 44px;
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 56px;
+  padding: 0 16px;
+  /* transparent border keeps the active state from shifting the layout */
+  border: 2px solid transparent;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--white);
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.sidebar__item .nav-glyph,
+.sidebar__item .nav-avatar {
+  flex-shrink: 0;
+}
+.sidebar__item:hover {
+  background: rgb(255 255 255 / 0.08);
+}
+.sidebar__item.is-active {
+  color: var(--blue);
+  background: rgb(255 255 255 / 0.1);
+  border-color: var(--blue);
+  font-weight: 600;
+}
+
+/* Icon rail on tablet */
+@media (max-width: 1199px) {
+  .sidebar {
+    align-items: center;
+    padding-inline: 12px;
+  }
+  .sidebar__logo {
+    padding: 8px;
+    border-radius: 18px;
+  }
+  .sidebar__logo-full,
+  .sidebar__label {
+    display: none;
+  }
+  .sidebar__logo-mark {
+    display: block;
+  }
+  .sidebar__item {
+    width: 56px;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+/* ---------- Bottom nav (mobile) — mirrors the app ---------- */
+.bottom-nav {
+  position: fixed;
+  z-index: 20;
+  left: 50%;
+  bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  translate: -50% 0;
+  width: min(100% - 32px, 398px);
+  height: 84px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 40px;
+  background: var(--navy);
+  box-shadow: 0 6px 0 var(--navy-shade);
+}
+
+.bottom-nav__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--white);
+}
+.bottom-nav__item .nav-glyph {
+  width: 22px;
+  height: 22px;
+}
+.bottom-nav__item.is-active {
+  color: var(--blue);
+}

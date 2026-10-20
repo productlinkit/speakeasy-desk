@@ -1,0 +1,628 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* ---------- Grid ----------
+   mobile  : 2 cols — progress / explore / find full, daily + video side by side
+   ≥1200px : progress 7 | find 5, explore full, daily 6 | video 6            */
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px 16px;
+}
+.progress-card,
+.explore-card,
+.find-card {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 768px) {
+  .home-grid {
+    gap: 28px 24px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .progress-card {
+    grid-column: span 7;
+  }
+  .find-card {
+    grid-column: span 5;
+    order: 1;
+  }
+  .explore-card {
+    order: 2;
+  }
+  .feature-card {
+    grid-column: span 6;
+    order: 3;
+  }
+}
+
+/* ---------- Card base (solid bottom "lift" like the app) ---------- */
+.card {
+  position: relative;
+  border-radius: var(--radius-card);
+  color: var(--white);
+  container-type: inline-size;
+}
+
+/* ---------- Progress ---------- */
+.progress-card {
+  background: var(--blue);
+  box-shadow: 0 var(--lift-card) 0 var(--blue-shade);
+}
+.progress-card__body {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    'info ring'
+    'cta  cta';
+  align-items: center;
+  gap: 20px 12px;
+  padding: 16px 24px 24px 26px;
+}
+.progress-card__info {
+  grid-area: info;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.progress-card .ring {
+  grid-area: ring;
+}
+.progress-card__cta {
+  grid-area: cta;
+}
+
+.lang-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 14px 0 8px;
+  border-radius: var(--radius-pill);
+  background: var(--navy);
+  font-size: 14px;
+  font-weight: 600;
+}
+.lang-pill img {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.progress-card__days {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.progress-card__days img {
+  width: 22px;
+  height: 22px;
+}
+.progress-card__hint {
+  font-size: 13px;
+}
+
+.ring {
+  position: relative;
+  width: 100px;
+  aspect-ratio: 1;
+}
+.ring svg {
+  width: 100%;
+  height: 100%;
+  rotate: -90deg;
+}
+.ring circle {
+  fill: none;
+  stroke-width: 8;
+}
+.ring__track {
+  stroke: var(--blue-soft);
+}
+.ring__fill {
+  stroke: var(--white);
+  transition: stroke-dashoffset 0.8s ease;
+}
+.ring__value {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+@container (min-width: 520px) {
+  .progress-card__body {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'info ring'
+      'cta  ring';
+    gap: 24px 40px;
+    padding: 32px 40px 36px;
+    min-height: 100%;
+  }
+  .progress-card__info {
+    gap: 14px;
+  }
+  .progress-card__days {
+    font-size: 34px;
+  }
+  .progress-card__days img {
+    width: 32px;
+    height: 32px;
+  }
+  .progress-card__hint {
+    font-size: 16px;
+  }
+  .progress-card__cta {
+    width: auto;
+    justify-self: start;
+    height: 50px;
+    padding: 0 40px;
+    font-size: 16px;
+  }
+  .progress-card .ring {
+    width: 176px;
+  }
+  .ring circle {
+    stroke-width: 7;
+  }
+  .ring__value {
+    font-size: 40px;
+  }
+}
+
+/* ---------- Explore banner ---------- */
+.explore-card {
+  display: block;
+  width: 100%;
+  /* it is a <button>, so the copy needs the alignment spelled out */
+  text-align: left;
+  background: var(--purple);
+  box-shadow: 0 6px 0 var(--purple-shade);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.explore-card:active {
+  transform: translateY(6px);
+  box-shadow: 0 0 0 var(--purple-shade);
+}
+.explore-card__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 104px;
+  padding: 20px 26px;
+}
+.explore-card__text {
+  flex: 1;
+}
+.explore-card h2 {
+  font-size: 16px;
+  font-weight: 600;
+}
+.explore-card p {
+  margin-top: 8px;
+  font-size: 12px;
+}
+.explore-card__mascot {
+  display: none;
+  align-self: flex-end;
+  flex-shrink: 0;
+  width: 150px;
+  aspect-ratio: 717 / 800;
+}
+.explore-card__mascot .lottie__poster {
+  object-position: bottom center;
+}
+.explore-card__arrow {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--purple-ink);
+  transition: transform 0.2s ease;
+}
+.explore-card:hover .explore-card__arrow {
+  transform: translateX(4px);
+}
+
+@container (min-width: 640px) {
+  .explore-card__inner {
+    min-height: 128px;
+    padding: 0 32px 0 24px;
+    gap: 24px;
+  }
+  .explore-card h2 {
+    font-size: 24px;
+  }
+  .explore-card p {
+    font-size: 15px;
+  }
+  .explore-card__mascot {
+    display: block;
+  }
+  .explore-card__arrow {
+    width: 76px;
+    height: 76px;
+  }
+}
+
+/* ---------- Find level ---------- */
+.find-card {
+  display: flex;
+  align-items: stretch;
+  min-height: 160px;
+  background: var(--violet);
+  box-shadow: 0 6px 0 var(--violet-shade);
+  overflow: hidden;
+}
+.find-card__mascot {
+  align-self: flex-end;
+  flex-shrink: 0;
+  width: 136px;
+  /* reserve the animation's own ratio so nothing jumps while it loads */
+  aspect-ratio: 743 / 800;
+  margin: 12px 0 0 -2px;
+}
+.find-card__mascot .lottie__stage svg {
+  object-fit: contain;
+}
+.find-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 12px;
+  padding: 20px 10px 20px 12px;
+}
+.find-card h2 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.find-card .btn {
+  height: 40px;
+}
+
+@media (min-width: 768px) {
+  .find-card__mascot {
+    width: 42%;
+    max-width: 170px;
+    margin-top: 24px;
+  }
+  .find-card__content {
+    padding: 24px 32px 24px 16px;
+    gap: 20px;
+  }
+  .find-card h2 {
+    font-size: 22px;
+  }
+  .find-card .btn {
+    height: 48px;
+    align-self: flex-start;
+    padding: 0 36px;
+  }
+}
+
+/* ---------- Feature (Daily Challenge / Video Courses) ---------- */
+.feature-card {
+  container-type: inline-size;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  color: var(--white);
+}
+.feature-card--daily {
+  /* flat, matching the Lottie's own backdrop so there is no seam */
+  --edge-top: #a9d8f8;
+  --edge-bottom: #a9d8f8;
+  --tint: 21 70 138;
+  /* lighter art needs a stronger side tint to keep the white copy readable */
+  --tint-side: 0.62;
+}
+.feature-card--video {
+  --edge-top: #c187f6;
+  --edge-bottom: #c68efd;
+  --tint: 115 60 190;
+}
+
+/* Portrait: image fills the card, copy sits on a bottom fade (app layout) */
+.feature-card__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  min-height: 260px;
+  background: linear-gradient(var(--edge-top), var(--edge-bottom));
+}
+.feature-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+.feature-card__img .lottie__poster {
+  object-fit: cover;
+  object-position: center top;
+}
+.feature-card__inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgb(var(--tint) / 0.45));
+}
+.feature-card__badge {
+  position: absolute;
+  z-index: 2;
+  top: 16px;
+  right: 16px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--navy);
+}
+.feature-card .btn svg {
+  margin-right: 2px;
+}
+
+.feature-card__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 0 24px 18px;
+}
+.feature-card h2 {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  text-shadow: 0 1px 8px rgb(var(--tint) / 0.35);
+}
+.feature-card p {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.feature-card .btn {
+  margin-top: 8px;
+  height: 34px;
+  padding: 0 24px;
+  font-size: 13px;
+}
+
+/* Landscape: copy on the left, square illustration anchored right */
+@container (min-width: 420px) {
+  .feature-card__inner {
+    min-height: 280px;
+    justify-content: center;
+  }
+  .feature-card__img {
+    inset: 0 0 0 auto;
+    width: auto;
+    aspect-ratio: 1;
+    mask-image: linear-gradient(90deg, transparent, #000 18%);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%);
+  }
+  .feature-card__inner::after {
+    background: linear-gradient(90deg, rgb(var(--tint) / var(--tint-side, 0.4)), transparent 60%);
+  }
+  .feature-card__content {
+    max-width: 58%;
+    gap: 10px;
+    padding: 32px 0 32px 36px;
+  }
+  .feature-card h2 {
+    font-size: 30px;
+  }
+  .feature-card p {
+    font-size: 15px;
+  }
+  .feature-card .btn {
+    height: 46px;
+    padding: 0 32px;
+    font-size: 15px;
+  }
+  .feature-card:hover .feature-card__img {
+    transform: scale(1.03);
+  }
+  .feature-card__img {
+    transition: transform 0.4s ease;
+    transform-origin: right center;
+  }
+}
+
+/* ---------- Dive into Learning ---------- */
+.section-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.dive {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dive__list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 216px;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  margin-inline: -16px;
+  padding-inline: 16px;
+  scroll-padding-inline: 16px;
+}
+.dive__list::-webkit-scrollbar {
+  display: none;
+}
+
+.dive-card {
+  position: relative;
+  /* it is a <button>, so the title needs the alignment spelled out */
+  text-align: left;
+  aspect-ratio: 216 / 242;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  scroll-snap-align: start;
+  isolation: isolate;
+}
+.dive-card img,
+.dive-card .lottie {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.dive-card .lottie__poster {
+  object-fit: cover;
+  object-position: center;
+}
+.dive-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.3);
+  transition: background 0.3s ease;
+}
+.dive-card__title {
+  position: absolute;
+  z-index: 1;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--white);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 28px;
+  }
+  .dive__list {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-columns: auto;
+    gap: 24px;
+    overflow: visible;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+  .dive-card {
+    aspect-ratio: 1;
+  }
+  .dive-card__title {
+    left: 28px;
+    bottom: 26px;
+    font-size: clamp(26px, 2.6vw, 38px);
+  }
+  .dive-card:hover img,
+  .dive-card:hover .lottie {
+    transform: scale(1.05);
+  }
+  .dive-card:hover::after {
+    background: rgb(0 0 0 / 0.18);
+  }
+}
+
+/* ---------- Entrance: cards rise in one after another ----------
+   fill-mode is `backwards`, not `both`, so once an element lands it goes
+   back to its normal styles and the :hover / :active transforms still work. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.home .topbar,
+.home-grid > *,
+.home .section-title,
+.home .dive-card {
+  animation: rise-in 520ms cubic-bezier(0.22, 0.68, 0.32, 1) backwards;
+}
+
+.home .topbar {
+  animation-delay: 0ms;
+}
+.home .progress-card {
+  animation-delay: 90ms;
+}
+.home .explore-card {
+  animation-delay: 180ms;
+}
+.home .find-card {
+  animation-delay: 270ms;
+}
+.home .feature-card--daily {
+  animation-delay: 360ms;
+}
+.home .feature-card--video {
+  animation-delay: 450ms;
+}
+.home .section-title {
+  animation-delay: 540ms;
+}
+.home .dive-card:nth-child(1) {
+  animation-delay: 600ms;
+}
+.home .dive-card:nth-child(2) {
+  animation-delay: 670ms;
+}
+.home .dive-card:nth-child(3) {
+  animation-delay: 740ms;
+}
+
+/* on wide screens "Find your level" sits above the purple banner */
+@media (min-width: 1200px) {
+  .home .find-card {
+    animation-delay: 180ms;
+  }
+  .home .explore-card {
+    animation-delay: 270ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home .topbar,
+  .home-grid > *,
+  .home .section-title,
+  .home .dive-card {
+    animation: none;
+  }
+}

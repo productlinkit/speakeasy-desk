@@ -1,0 +1,19 @@
+.lottie {
+  position: relative;
+}
+
+.lottie__stage,
+.lottie__stage svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.lottie__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom left;
+}
