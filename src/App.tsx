@@ -6,7 +6,9 @@ import { AiTutor, type TutorStep } from './pages/AiTutor'
 import { Community, type CommunityStep } from './pages/Community'
 import { DailyChallenge, type DailyStep } from './pages/DailyChallenge'
 import { FindLevel, type FindLevelStep } from './pages/FindLevel'
+import { Leagues, type LeaguesStep } from './pages/Leagues'
 import { Learning } from './pages/Learning'
+import { LearningPath } from './pages/LearningPath'
 import { MovieLearning, type MovieStep } from './pages/MovieLearning'
 import { Quiz } from './pages/Quiz'
 import { SongLearning, type SongStep } from './pages/SongLearning'
@@ -40,6 +42,8 @@ export default function App() {
     (Object.keys(navPath) as NavKey[]).find((key) => key !== 'home' && path.startsWith(navPath[key])) ??
     'home'
 
+  // "/" is the path; the old dashboard answers on "/home" through the fallback below
+  const isPath = path === '/'
   const isAddLanguage = path.startsWith('/add-language')
   const movieStep: MovieStep | null = path.startsWith('/movie-learning')
     ? path.endsWith('/quiz')
@@ -47,6 +51,11 @@ export default function App() {
       : path.endsWith('/completion')
         ? 'completion'
         : 'list'
+    : null
+  const leagueStep: LeaguesStep | null = path.startsWith('/leagues')
+    ? path.endsWith('/how-it-works')
+      ? 'how'
+      : 'board'
     : null
   const communityStep: CommunityStep | null = path.startsWith('/community')
     ? path.endsWith('/new-post')
@@ -105,8 +114,8 @@ export default function App() {
 
   // chat and the call bring their own surface, so the white sheet gets out of the way
   const isBare = tutorStep === 'chat' || tutorStep === 'call'
-  // the composer is a full-screen sub-page in the app: no tab bar over it
-  const noTabs = communityStep === 'new'
+  // these are full-screen sub-pages in the app: no tab bar over them
+  const noTabs = communityStep === 'new' || leagueStep === 'how'
 
   return (
     <div
@@ -116,7 +125,9 @@ export default function App() {
     >
       <Sidebar active={active} onChange={(key) => navigate(navPath[key])} />
       <main className="app__main">
-        {communityStep ? (
+        {leagueStep ? (
+          <Leagues step={leagueStep} onNavigate={navigate} />
+        ) : communityStep ? (
           <Community step={communityStep} onNavigate={navigate} />
         ) : movieStep ? (
           <MovieLearning step={movieStep} onNavigate={navigate} />
@@ -136,8 +147,10 @@ export default function App() {
           <Quiz onExit={() => navigate('/learning')} />
         ) : isLearning ? (
           <Learning onStartQuiz={() => navigate('/lesson-quiz')} onBack={back} />
+        ) : isPath ? (
+          <LearningPath onNavigate={navigate} />
         ) : active === 'home' ? (
-          <Home onStartLearning={() => navigate('/learning')} onFindLevel={() => navigate('/find-level')}
+          <Home onStartLearning={() => navigate('/')} onFindLevel={() => navigate('/find-level')}
             onExplore={() => navigate('/add-language')}
             onDailyChallenge={(done) =>
               navigate(done ? '/daily-challenge/done' : '/daily-challenge')

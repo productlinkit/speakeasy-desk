@@ -1,0 +1,498 @@
+/* Leagues — weekly leaderboard, and the "How Leagues Work" page behind Read more */
+
+.lg {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 32px;
+}
+.lg__main {
+  min-width: 0;
+}
+
+/* ---------- Hero ---------- */
+.lg__main > .topbar {
+  margin-bottom: 18px;
+}
+
+.lghero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 34px 20px 42px;
+  border-radius: var(--radius-card);
+  /* the app paints a faint sunburst behind the badge */
+  background:
+    repeating-conic-gradient(
+      from 0deg at 50% 38%,
+      rgb(255 255 255 / 0.3) 0deg 7deg,
+      rgb(255 255 255 / 0) 7deg 14deg
+    ),
+    radial-gradient(120% 90% at 50% 25%, #d8dde0 0%, #e9edee 45%, var(--bg) 100%);
+}
+.lghero__badge {
+  width: 168px;
+  height: auto;
+  filter: drop-shadow(0 10px 16px rgb(28 71 100 / 0.18));
+}
+.lghero h1 {
+  margin-top: 6px;
+  color: #6c7a84;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+}
+.lghero p {
+  color: #8c979f;
+  font-size: 17px;
+}
+
+.lg__chip {
+  width: max-content;
+  margin: 26px auto 18px;
+  padding: 10px 26px;
+  border-radius: var(--radius-pill);
+  background: #eaf2ff;
+  color: #0070f6;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+/* ---------- Board ---------- */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 20px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: #ebebeb;
+}
+.row--gold {
+  background: #fffccf;
+}
+.row--silver {
+  background: #e2f3ff;
+}
+.row--bronze {
+  background: #fef1dc;
+}
+.row--promo {
+  background: #eafcd4;
+}
+.row--you {
+  margin-top: 4px;
+  border-color: #0070f6;
+}
+
+.row__rank {
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 600;
+}
+.row__rank img {
+  width: 34px;
+  height: 34px;
+}
+.row__name {
+  color: var(--ink);
+  font-size: 20px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.row__stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.row__stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.row__stats img {
+  width: 18px;
+  height: 18px;
+}
+
+.zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 0 8px;
+  font-size: 17px;
+  font-weight: 600;
+}
+.zone--up {
+  color: #279716;
+}
+.zone--down {
+  color: #d32f2f;
+}
+.zone strong {
+  font-weight: 700;
+}
+
+/* ---------- Right rail (its own names: Home styles .rail/.rcard too) ---------- */
+.lgrail {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.lgcard {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 20px;
+  background: var(--white);
+}
+.lgcard__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.lgcard__head h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0;
+}
+.week div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: var(--blue-tint);
+  text-align: center;
+}
+.week dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+.week dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 22px;
+  font-weight: 700;
+}
+.week__note {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.zone-pill {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.zone-pill--promotion {
+  background: #eafcd4;
+  color: #279716;
+}
+.zone-pill--safe {
+  background: #ebebeb;
+  color: var(--muted);
+}
+.zone-pill--demotion {
+  background: #fde8e8;
+  color: #d32f2f;
+}
+
+.hlw-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 20px;
+  background: var(--white);
+  text-align: center;
+}
+.hlw-card h2 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+}
+.hlw-card p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.hlw-card__more {
+  margin-top: 2px;
+  color: var(--navy);
+  font-size: 17px;
+  font-weight: 600;
+}
+.hlw-card__more:hover {
+  text-decoration: underline;
+}
+
+/* ---------- How Leagues Work ---------- */
+.lgglyph {
+  display: block;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  background: currentColor;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+}
+
+.how {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+/* the reading parts stay narrow; the ladder spreads over the full column */
+.how__intro,
+.how__points {
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+}
+.how__head {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.how__head h1 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: #111;
+}
+.how__back {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  color: #111;
+  transition: background 0.15s ease;
+}
+.how__back:hover {
+  background: rgb(0 0 0 / 0.06);
+}
+
+.how__intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.how__intro img {
+  width: 200px;
+  height: auto;
+}
+.how__intro h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+}
+.how__intro p {
+  max-width: 460px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.how__points {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.point {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  color: var(--navy);
+  font-size: 18px;
+  font-weight: 600;
+}
+.point img {
+  width: 26px;
+  height: 26px;
+}
+.point--pink {
+  background: #fdeaf1;
+}
+.point--blue {
+  background: #e2f3ff;
+}
+.point--amber {
+  background: #fdf3e2;
+}
+
+.how__title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+}
+.how__title img {
+  width: 26px;
+  height: 26px;
+}
+
+.ladder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ladder__item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 22px;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  background: var(--white);
+}
+.ladder__item.is-mine {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px var(--blue);
+}
+.ladder__item div {
+  flex: 1;
+  min-width: 0;
+}
+.ladder__item h3 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+}
+.ladder__item p {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.45;
+}
+.ladder__item img {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+/* ---------- Tablet: the rail drops under the board ---------- */
+@media (max-width: 1023px) {
+  .lg {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lgrail {
+    position: static;
+  }
+  /* the phone app has no week card — the pinned row already carries it */
+  .lg__week {
+    display: none;
+  }
+  /* and it prints the help as plain centred text, not as a card */
+  .hlw-card {
+    padding: 8px 0 0;
+    border: 0;
+    background: none;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .lghero {
+    padding: 24px 16px 32px;
+    border-radius: 0;
+    margin-inline: -16px;
+  }
+  .lg__main > .topbar {
+    margin-bottom: 14px;
+  }
+  .lghero__badge {
+    width: 140px;
+  }
+  .lghero h1 {
+    font-size: 26px;
+  }
+  .row {
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    padding: 12px 16px;
+  }
+  .row__name,
+  .row__rank {
+    font-size: 18px;
+  }
+  .how {
+    gap: 18px;
+  }
+  .how__head h1 {
+    font-size: 21px;
+  }
+  .how__intro h2 {
+    font-size: 22px;
+  }
+  .point {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+  .ladder__item {
+    padding: 16px 18px;
+  }
+  .ladder__item h3 {
+    font-size: 19px;
+  }
+}
