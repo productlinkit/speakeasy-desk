@@ -2,7 +2,7 @@
 export const user = {
   name: 'hana',
   initial: 'P',
-  streakDays: 0,
+  streakDays: 3,
   gems: 1275,
   language: { name: 'English', flag: '/assets/country/uk3.svg' },
   progress: 28,

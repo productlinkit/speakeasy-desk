@@ -9,6 +9,7 @@ import { FindLevel, type FindLevelStep } from './pages/FindLevel'
 import { Leagues, type LeaguesStep } from './pages/Leagues'
 import { Learning } from './pages/Learning'
 import { LearningPath } from './pages/LearningPath'
+import { Practice } from './pages/Practice'
 import { MovieLearning, type MovieStep } from './pages/MovieLearning'
 import { Quiz } from './pages/Quiz'
 import { SongLearning, type SongStep } from './pages/SongLearning'
@@ -42,8 +43,10 @@ export default function App() {
     (Object.keys(navPath) as NavKey[]).find((key) => key !== 'home' && path.startsWith(navPath[key])) ??
     'home'
 
-  // "/" is the path; the old dashboard answers on "/home" through the fallback below
-  const isPath = path === '/'
+  // "/" is the AI home; the course map is its own flow, and the first dashboard
+  // this slice had is still reachable on "/home"
+  const isPath = path === '/path'
+  const isOldHome = path === '/home'
   const isAddLanguage = path.startsWith('/add-language')
   const movieStep: MovieStep | null = path.startsWith('/movie-learning')
     ? path.endsWith('/quiz')
@@ -149,8 +152,8 @@ export default function App() {
           <Learning onStartQuiz={() => navigate('/lesson-quiz')} onBack={back} />
         ) : isPath ? (
           <LearningPath onNavigate={navigate} />
-        ) : active === 'home' ? (
-          <Home onStartLearning={() => navigate('/')} onFindLevel={() => navigate('/find-level')}
+        ) : isOldHome ? (
+          <Home onStartLearning={() => navigate('/path')} onFindLevel={() => navigate('/find-level')}
             onExplore={() => navigate('/add-language')}
             onDailyChallenge={(done) =>
               navigate(done ? '/daily-challenge/done' : '/daily-challenge')
@@ -162,6 +165,8 @@ export default function App() {
               if (key === 'tutor') navigate('/ai-tutor')
             }}
           />
+        ) : active === 'home' ? (
+          <Practice onNavigate={navigate} />
         ) : (
           <Placeholder page={active} />
         )}

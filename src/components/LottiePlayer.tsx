@@ -12,6 +12,8 @@ type LottiePlayerProps = {
   loop?: boolean
   /** how the animation fills its box, like object-fit */
   fit?: 'contain' | 'cover'
+  /** which edge the crop holds on to, like object-position */
+  align?: 'xMidYMid' | 'xMidYMax' | 'xMidYMin'
 }
 
 const prefersReducedMotion = () =>
@@ -24,6 +26,7 @@ export function LottiePlayer({
   className,
   loop = true,
   fit = 'contain',
+  align = 'xMidYMid',
 }: LottiePlayerProps) {
   // lottie-web owns `stage`; React must never render children into it
   const stage = useRef<HTMLDivElement>(null)
@@ -41,7 +44,7 @@ export function LottiePlayer({
       autoplay: false,
       path: src,
       rendererSettings: {
-        preserveAspectRatio: fit === 'cover' ? 'xMidYMid slice' : 'xMidYMid meet',
+        preserveAspectRatio: `${align} ${fit === 'cover' ? 'slice' : 'meet'}`,
       },
     })
     anim.current = item
@@ -58,7 +61,7 @@ export function LottiePlayer({
       anim.current = null
       setReady(false)
     }
-  }, [src, loop, fit])
+  }, [src, loop, fit, align])
 
   useEffect(() => {
     const item = anim.current

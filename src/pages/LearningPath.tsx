@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { isDailyDone } from '../data/dailyChallenge'
-import { learningItems, user } from '../data/home'
+import { user } from '../data/home'
 import {
   activeNode,
   activeUnit,
@@ -275,14 +275,6 @@ function Node({
 
 function Rail({ onNavigate }: { onNavigate: (to: string) => void }) {
   const dailyDone = isDailyDone()
-  const dive: { label: string; image: string; to: string }[] = [
-    ...learningItems.map((item) => ({
-      label: item.title,
-      image: item.image,
-      to: item.key === 'movies' ? '/movie-learning' : item.key === 'song' ? '/song-learning' : '/ai-tutor',
-    })),
-    { label: 'Video Courses', image: '/assets/mascot/video-course.webp', to: '/video-courses' },
-  ]
 
   return (
     <aside className="rail" aria-label="Your progress">
@@ -341,20 +333,19 @@ function Rail({ onNavigate }: { onNavigate: (to: string) => void }) {
         </button>
       </section>
 
+      {/* the four headline features sit above the map now, so the rail keeps
+          the one way to learn that is not up there */}
       <section className="rcard">
         <div className="rcard__head">
-          <h2>Dive into Learning</h2>
+          <h2>Video Courses</h2>
         </div>
-        <ul className="rlist">
-          {dive.map((item) => (
-            <li key={item.label}>
-              <button type="button" className="rlist__item" onClick={() => onNavigate(item.to)}>
-                <img src={item.image} alt="" loading="lazy" />
-                <span>{item.label}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div className="rcard__row">
+          <img src="/assets/mascot/video-course.webp" alt="" className="rcard__art" />
+          <p>Short lessons you can watch end to end</p>
+        </div>
+        <button type="button" className="btn btn--block" onClick={() => onNavigate('/video-courses')}>
+          See Video
+        </button>
       </section>
     </aside>
   )
@@ -397,7 +388,7 @@ export function LearningPath({ onNavigate }: { onNavigate: (to: string) => void 
     }
   }, [])
 
-  // open where the learner left off, the way the path in the app does
+  // you came here on purpose, so open where you left off, the way the app does
   useEffect(() => {
     const el = activeNode && document.getElementById(`node-${activeNode.id}`)
     if (el) requestAnimationFrame(() => el.scrollIntoView({ block: 'center' }))
@@ -440,7 +431,7 @@ export function LearningPath({ onNavigate }: { onNavigate: (to: string) => void 
     timer.current = window.setTimeout(() => setToast(''), 2400)
   }
 
-  const jumpToCurrent = () => {
+  const scrollToActive = () => {
     const el = activeId && document.getElementById(`node-${activeId}`)
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' })
   }
@@ -449,81 +440,81 @@ export function LearningPath({ onNavigate }: { onNavigate: (to: string) => void 
 
   return (
     <div className="path">
-      <div className="path__main">
-        <div className="unitbar-wrap">
-          <header className={`unitbar u--${bar.tone}`}>
+        <div className="path__main">
+          <div className="unitbar-wrap">
+            <header className={`unitbar u--${bar.tone}`}>
+              <button
+                type="button"
+                className="unitbar__back"
+                onClick={() => onNavigate('/')}
+                aria-label="Back to home"
+              >
+                <BackArrow />
+              </button>
+              <div className="unitbar__text">
+                <p className="unitbar__eyebrow">
+                  {section}, Unit {bar.index}
+                </p>
+                <h1>{bar.title}</h1>
+              </div>
+              <button type="button" className="unitbar__guide" onClick={() => onNavigate('/learning')}>
+                <BookIcon />
+                <span>All Courses</span>
+              </button>
+            </header>
+          </div>
+
+          {units.map((unit, u) => (
+            <section
+              key={unit.id}
+              id={`unit-${unit.id}`}
+              className={`unit u--${unit.tone}`}
+              aria-labelledby={`unit-title-${unit.id}`}
+            >
+              <div className="unit__divider">
+                <span id={`unit-title-${unit.id}`}>{unit.title}</span>
+              </div>
+
+              <div className="unit__path">
+                {unit.nodes.map((node, n) => {
+                  const spot = spots[u][n]
+                  return (
+                    <Node
+                      key={node.id}
+                      node={node}
+                      state={stateOf(node)}
+                      unit={unit}
+                      offset={spot.offset}
+                      jumpable={spot.jumpable}
+                      progress={unit.progress}
+                      open={open === node.id}
+                      onOpen={setOpen}
+                      onStart={() => onNavigate('/lesson-quiz')}
+                      onCollect={() => collect(unit, n)}
+                    />
+                  )
+                })}
+                {unit.id === activeUnit?.id && (
+                  <img className="unit__mascot unit__mascot--left" src="/assets/mascot/12.png" alt="" />
+                )}
+                {u === units.length - 1 && (
+                  <img className="unit__mascot unit__mascot--right" src="/assets/mascot/19.png" alt="" />
+                )}
+              </div>
+            </section>
+          ))}
+
+          {away && (
             <button
               type="button"
-              className="unitbar__back"
-              onClick={() => onNavigate('/home')}
-              aria-label="Back to home"
+              className="path__jump"
+              onClick={scrollToActive}
+              aria-label="Back to my lesson"
             >
-              <BackArrow />
+              <UpIcon />
             </button>
-            <div className="unitbar__text">
-              <p className="unitbar__eyebrow">
-                {section}, Unit {bar.index}
-              </p>
-              <h1>{bar.title}</h1>
-            </div>
-            <button type="button" className="unitbar__guide" onClick={() => onNavigate('/learning')}>
-              <BookIcon />
-              <span>All Courses</span>
-            </button>
-          </header>
+          )}
         </div>
-
-        {units.map((unit, u) => (
-          <section
-            key={unit.id}
-            id={`unit-${unit.id}`}
-            className={`unit u--${unit.tone}`}
-            aria-labelledby={`unit-title-${unit.id}`}
-          >
-            <div className="unit__divider">
-              <span id={`unit-title-${unit.id}`}>{unit.title}</span>
-            </div>
-
-            <div className="unit__path">
-              {unit.nodes.map((node, n) => {
-                const spot = spots[u][n]
-                return (
-                  <Node
-                    key={node.id}
-                    node={node}
-                    state={stateOf(node)}
-                    unit={unit}
-                    offset={spot.offset}
-                    jumpable={spot.jumpable}
-                    progress={unit.progress}
-                    open={open === node.id}
-                    onOpen={setOpen}
-                    onStart={() => onNavigate('/lesson-quiz')}
-                    onCollect={() => collect(unit, n)}
-                  />
-                )
-              })}
-              {unit.id === activeUnit?.id && (
-                <img className="unit__mascot unit__mascot--left" src="/assets/mascot/12.png" alt="" />
-              )}
-              {u === units.length - 1 && (
-                <img className="unit__mascot unit__mascot--right" src="/assets/mascot/19.png" alt="" />
-              )}
-            </div>
-          </section>
-        ))}
-
-        {away && (
-          <button
-            type="button"
-            className="path__jump"
-            onClick={jumpToCurrent}
-            aria-label="Back to my lesson"
-          >
-            <UpIcon />
-          </button>
-        )}
-      </div>
 
       <Rail onNavigate={onNavigate} />
 

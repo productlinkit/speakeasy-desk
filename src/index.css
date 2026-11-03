@@ -138,6 +138,25 @@ p {
   width: 100%;
 }
 
+/* One tone per feature or unit. Set the class on a wrapper and everything
+   inside can paint itself with var(--tone) / var(--tone-shade). */
+.u--blue {
+  --tone: var(--blue);
+  --tone-shade: var(--blue-shade);
+}
+.u--violet {
+  --tone: var(--violet);
+  --tone-shade: var(--violet-shade);
+}
+.u--purple {
+  --tone: var(--purple);
+  --tone-shade: var(--purple-shade);
+}
+.u--navy {
+  --tone: var(--navy);
+  --tone-shade: var(--navy-shade);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;

@@ -1,4 +1,4 @@
-/* The home path — units stacked top to bottom, stops snaking down the middle */
+/* The course map — units stacked top to bottom, stops snaking down the middle */
 
 .path {
   display: grid;
@@ -10,24 +10,6 @@
 .path__main {
   position: relative;
   min-width: 0;
-}
-
-/* tone per unit, so the bar and its stops always match */
-.u--blue {
-  --tone: var(--blue);
-  --tone-shade: var(--blue-shade);
-}
-.u--violet {
-  --tone: var(--violet);
-  --tone-shade: var(--violet-shade);
-}
-.u--purple {
-  --tone: var(--purple);
-  --tone-shade: var(--purple-shade);
-}
-.u--navy {
-  --tone: var(--navy);
-  --tone-shade: var(--navy-shade);
 }
 
 /* ---------- Sticky unit bar ---------- */

@@ -1,0 +1,695 @@
+/* Home — one feature leads and the rest is laid out around it: the call fills a
+   banner across the top, the course you are mid-way through sits right under
+   it, then the other ways to practise, then the account's languages. A rail on
+   the right carries the things that are true today rather than always: the
+   daily challenge, this week's board, and the placement test.
+
+   Nothing on this page reacts to the pointer merely passing over it. A press is
+   the only state a card has, and every button is the app's own .btn. */
+
+.prac {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.prac__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: 24px;
+}
+
+.prac__col {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.prac__rail {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.prac__block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.prac__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.prac__head h2 {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+  color: #111;
+}
+/* a text link, deliberately not a button: it leaves the page rather than
+   acting on it, and the page's buttons are all the one filled pill */
+.prac__link {
+  color: var(--blue);
+  font-size: 14px;
+  font-weight: 700;
+}
+.prac__link:active {
+  color: var(--blue-shade);
+}
+
+/* ---------- The highlight: a call with Renald ---------- */
+.hero2 {
+  position: relative;
+  display: grid;
+  /* the scene's own 1000×563, so it shows whole: nothing cropped, no bars */
+  aspect-ratio: 1000 / 563;
+  align-items: center;
+  padding: 0 32px;
+  border-radius: var(--radius-card);
+  /* the scene's own sky, so the banner looks the same before it has parsed */
+  background: linear-gradient(180deg, #bde2fb 0%, #e6f4ff 100%);
+  box-shadow: 0 6px 0 #9ccbe9;
+  /* the clear half of the scene is pale sky, so the copy is ink, not white */
+  color: var(--navy);
+  overflow: hidden;
+}
+/* the left of the scene is empty sky all the way down to the water, which is
+   where the copy goes */
+.hero2__body {
+  display: flex;
+  position: relative;
+  z-index: 1;
+  max-width: 46%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.hero2__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 14px 0 6px;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.92);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+.hero2__chip img {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.hero2__body h2 {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.12;
+  text-wrap: pretty;
+}
+.hero2__body p {
+  text-wrap: pretty;
+  max-width: 34ch;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+.hero2__body .btn {
+  margin-top: 6px;
+}
+.hero2__scene {
+  position: absolute;
+  inset: 0;
+}
+
+/* ---------- Shared skeleton for the cards you can press ---------- */
+.contcard,
+.stile,
+.langpill {
+  text-align: left;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+.contcard:active,
+.stile:active,
+.langpill:active {
+  transform: translateY(5px);
+}
+/* the card drops on a press and the button rides down with it, so its own
+   ledge compresses instead of floating */
+.contcard:active .btn {
+  box-shadow: 0 1px 0 var(--navy-shade);
+}
+
+/* ---------- Continue learning ---------- */
+.contcard {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+}
+.contcard:active {
+  box-shadow: 0 0 0 #e7edf3;
+}
+.contcard__art {
+  width: 104px;
+  height: 76px;
+  border-radius: 16px;
+  background: #eef3f8;
+  object-fit: cover;
+}
+.contcard__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.contcard__title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  color: #111;
+}
+.contcard__note {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.contcard__meter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 11px;
+}
+.contcard__bar {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  height: 10px;
+  border-radius: var(--radius-pill);
+  background: #e7edf3;
+  overflow: hidden;
+}
+.contcard__fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--blue);
+}
+.contcard__pct {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* ---------- Build your skills ---------- */
+.prac__tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}
+/* solid, each in the tone that feature already uses elsewhere, built the way
+   every coloured card in the app is: no rim, the 3D ledge outside. White text
+   sits at 2.4:1 on the purple and 2.6:1 on the blue, under what WCAG asks at
+   this size — the same deliberate call as the banner above them. */
+.stile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 20px;
+  background: var(--tone);
+  box-shadow: 0 5px 0 var(--tone-shade);
+  color: var(--white);
+}
+.stile:active {
+  box-shadow: 0 0 0 var(--tone-shade);
+}
+/* the global focus ring is blue, which would vanish on the blue tile */
+.stile:focus-visible {
+  outline-color: var(--white);
+}
+/* no chip behind them: the animation sits straight on the tile's own colour,
+   and fills the whole box rather than floating inside a white square */
+.stile__art {
+  display: block;
+  width: 58px;
+  height: 58px;
+  /* three of the four animations carry their own painted background, so the
+     corner is rounded off them; the chat one has a clear canvas and the fox
+     simply stands on the tile */
+  border-radius: 16px;
+  overflow: hidden;
+}
+.stile__art .lottie {
+  width: 100%;
+  height: 100%;
+}
+/* the chat animation is the one with a clear canvas, so it gets the plate the
+   other three already carry in their own artwork */
+.stile--chat .stile__art {
+  background: var(--white);
+}
+.stile__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+.stile__title {
+  text-wrap: pretty;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.stile__meta {
+  text-wrap: pretty;
+  color: rgb(255 255 255 / 0.9);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+/* ---------- Your languages ---------- */
+.prac__langs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(156px, 1fr));
+  gap: 12px;
+}
+.langpill {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 14px;
+  border: 2px solid #e4eaf0;
+  border-radius: 18px;
+  background: var(--white);
+}
+.langpill > img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.langpill__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+.langpill__name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+}
+.langpill__state {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ---------- The rail ---------- */
+/* the three rail cards are built like the course card above them: same rim,
+   same 24px corner, same ledge underneath */
+.rcard2 {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+}
+.rcard2 h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+}
+.rcard2 .btn {
+  width: 100%;
+}
+
+/* ---------- Today ---------- */
+/* the one coloured card in the rail. White on this purple lands at 2.4:1,
+   under what WCAG asks at these sizes — the same deliberate call as the tutor
+   cards in the app, so the two read as one family. The day labels are kept at
+   12px semibold rather than 11px regular to claw some of it back. */
+.goal {
+  /* transparent rather than none: the purple shows through it, and the card
+     keeps the same box metrics as its bordered neighbours so all three share
+     one left edge */
+  border-color: transparent;
+  background: var(--purple);
+  box-shadow: 0 5px 0 var(--purple-shade);
+  color: var(--white);
+}
+.goal h2 {
+  color: var(--white);
+}
+.goal__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.goal__done {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 26px;
+  padding: 0 11px;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--purple-shade);
+  font-size: 12px;
+  font-weight: 700;
+}
+.goal__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.goal__dial {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 88px;
+  height: 88px;
+}
+.goal__ring {
+  position: absolute;
+  inset: 0;
+  /* start the arc at twelve o'clock instead of three */
+  transform: rotate(-90deg);
+}
+.goal__track,
+.goal__arc {
+  fill: none;
+  stroke-width: 9;
+}
+.goal__track {
+  stroke: rgb(255 255 255 / 0.32);
+}
+.goal__arc {
+  stroke: var(--white);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s ease;
+}
+.goal__count {
+  position: relative;
+  color: rgb(255 255 255 / 0.82);
+  font-size: 13px;
+}
+.goal__count strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--white);
+}
+.goal__say {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-wrap: pretty;
+  color: rgb(255 255 255 / 0.9);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.goal__say strong {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+}
+/* centred rather than stretched edge to edge: seven fixed cells keep the dots
+   evenly spaced whatever the rail is doing */
+.goal__week {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  gap: 8px;
+  padding: 2px 0;
+}
+.goal__day {
+  display: flex;
+  width: 30px;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgb(255 255 255 / 0.85);
+  font-size: 12px;
+  font-weight: 600;
+}
+.goal__dot {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 2px solid rgb(255 255 255 / 0.45);
+  border-radius: 50%;
+}
+/* a day you cleared carries the tick, not just a filled circle */
+.goal__day.is-lit .goal__dot {
+  border-color: var(--white);
+  background: var(--white);
+  color: var(--purple-shade);
+}
+/* today is the one you can still do something about */
+.goal__day.is-today .goal__dot {
+  border-color: var(--white);
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 0.22);
+}
+.goal__day.is-today .goal__name {
+  color: var(--white);
+  font-weight: 700;
+}
+
+/* ---------- This week's board ---------- */
+/* the heading starts on the card's own left edge, in line with the two cards
+   above and below it; the badge rides with the league name underneath */
+.wboard__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wboard__tier {
+  display: flex;
+  align-items: center;
+  margin-top: -8px;
+  gap: 8px;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wboard__badge {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  object-fit: contain;
+}
+.wboard__when {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+/* the rows carry their own padding so the highlight can bleed past the text;
+   the negative margin pulls that padding back so every name still starts on
+   the card's own left edge, in line with the heading above */
+.wboard__list {
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+  /* an <ol> carries 40px of inline-start padding of its own, which was pushing
+     the whole board to the right of everything else in the card */
+  margin: 0 -10px;
+  padding: 0;
+  gap: 2px;
+}
+.wboard__row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  min-height: 36px;
+  gap: 12px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.wboard__row--you {
+  background: var(--blue-tint);
+  font-weight: 700;
+}
+/* one box for both a trophy and a plain number, so the column never wobbles */
+.wboard__rank {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+.wboard__rank img {
+  width: 24px;
+  height: 24px;
+}
+.wboard__name {
+  overflow: hidden;
+  color: #111;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wboard__xp {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+/* the rows between fifth place and yours, stated rather than drawn */
+.wboard__gap {
+  height: 12px;
+  /* centred on the rank column: 10px of row padding plus half of its 24px */
+  margin: 1px 0 1px 21px;
+  border-left: 2px dotted #dbe3ea;
+}
+.wboard__note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+/* placement test */
+.levelcard {
+  align-items: flex-start;
+  gap: 8px;
+}
+/* the same chip the skill tiles use, in reverse: a coloured square on a white
+   card, where theirs is a white square on a coloured one */
+.levelcard__art {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: var(--blue);
+  overflow: hidden;
+}
+.levelcard__art .lottie {
+  width: 58px;
+  height: 58px;
+}
+.levelcard p {
+  text-wrap: pretty;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+.levelcard .btn {
+  margin-top: 4px;
+}
+
+/* ---------- Narrow desktop: the rail drops under the column ---------- */
+@media (max-width: 1099px) {
+  .prac__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .prac__rail {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+    align-items: start;
+  }
+  .hero2__body {
+    max-width: 44%;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .prac__col {
+    gap: 22px;
+  }
+  .prac__head h2 {
+    font-size: 19px;
+  }
+  /* too narrow to stand words beside the scene, so the card carries the sky on
+     upward instead: these three stops are sampled off the scene's own top row
+     (#a9dcfb on the left through to #3fb0fd on the right), so where the sky
+     meets the scene there is no seam to find — the copy ends up sitting in the
+     same sky the fox is standing under */
+  .hero2 {
+    display: flex;
+    aspect-ratio: auto;
+    flex-direction: column;
+    padding: 20px 20px 0;
+    border-radius: 26px;
+    background: linear-gradient(90deg, #a9dcfb 0%, #65c2fd 40%, #3fb0fd 100%);
+  }
+  .hero2__body {
+    max-width: none;
+    gap: 10px;
+  }
+  /* smaller type, so the sky above the scene stays a band rather than a block */
+  .hero2__chip {
+    height: 28px;
+    font-size: 12px;
+  }
+  .hero2__body h2 {
+    font-size: 22px;
+  }
+  .hero2__body p {
+    font-size: 14px;
+  }
+  /* on a phone the scene sits under the copy rather than behind it */
+  .hero2__scene {
+    /* the player is the first child, so it has to be told to come last */
+    position: static;
+    display: block;
+    order: 2;
+    width: calc(100% + 40px);
+    height: auto;
+    aspect-ratio: 1000 / 563;
+    margin: 18px -20px 0;
+  }
+  /* the course card stacks: artwork and progress first, button on its own line */
+  .contcard {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 14px;
+    row-gap: 14px;
+  }
+  .contcard__art {
+    width: 76px;
+    height: 66px;
+  }
+  .contcard .btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+  .prac__tiles,
+  .prac__langs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .prac .btn {
+    height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  .prac__rail {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+}
