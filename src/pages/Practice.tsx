@@ -5,13 +5,17 @@ import { user } from '../data/home'
 import { badge, leaderboard, promotionRank, standing, tier, you } from '../data/leagues'
 import { activeUnit, section } from '../data/path'
 import { hero, languageRow, skills, type Skill } from '../data/practice'
+import { useSession } from '../session'
 import './Practice.css'
+import { languageOf } from '../data/addLanguage'
 
 type Nav = (to: string) => void
 
 /* ---------------- the highlight: a call with Renald ---------------- */
 
 function Hero({ onNavigate }: { onNavigate: Nav }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   return (
     <section className="hero2" aria-labelledby="hero-title">
       {/* the banner's backdrop. It loops on its own — the one piece of motion
@@ -25,8 +29,8 @@ function Hero({ onNavigate }: { onNavigate: Nav }) {
       <div className="hero2__body">
         {/* the language this account is studying — a label, not a control */}
         <span className="hero2__chip">
-          <img src={user.language.flag} alt="" />
-          Learning {user.language.name}
+          <img src={lang.flag} alt="" />
+          Learning {lang.name}
         </span>
         <h2 id="hero-title">{hero.title}</h2>
         <p>{hero.lead}</p>
@@ -261,9 +265,12 @@ function LevelCard({ onNavigate }: { onNavigate: Nav }) {
 /* ---------------- page ---------------- */
 
 export function Practice({ onNavigate }: { onNavigate: Nav }) {
+  // which language is yours is the session's answer, the same one the wizard
+  // marks, so the two screens cannot disagree
+  const { profile } = useSession()
   return (
     <div className="prac">
-      <TopBar />
+      <TopBar onNavigate={onNavigate} />
 
       <div className="prac__grid">
         <div className="prac__col">
@@ -312,7 +319,9 @@ export function Practice({ onNavigate }: { onNavigate: Nav }) {
                   <img src={lang.flag} alt="" />
                   <span className="langpill__body">
                     <span className="langpill__name">{lang.name}</span>
-                    <span className="langpill__state">{lang.locked ? 'Added' : 'Add'}</span>
+                    <span className="langpill__state">
+                      {lang.code === profile.language ? 'Learning' : 'Add'}
+                    </span>
                   </span>
                 </button>
               ))}

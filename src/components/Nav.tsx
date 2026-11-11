@@ -1,4 +1,5 @@
-import { navItems, user, type NavKey } from '../data/home'
+import { navItems, type NavKey } from '../data/home'
+import { useSession } from '../session'
 import './Nav.css'
 
 type NavProps = {
@@ -7,8 +8,24 @@ type NavProps = {
 }
 
 function NavGlyph({ icon }: { icon?: string }) {
+  const { member, profile } = useSession()
   if (!icon) {
-    return <span className="nav-avatar">{user.initial}</span>
+    // a guest has no initial to show, and somebody else's would be a lie
+    if (!member)
+      return (
+        <span className="nav-avatar nav-avatar--guest" aria-hidden>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="8.2" r="3.6" stroke="currentColor" strokeWidth="1.9" />
+            <path
+              d="M4.9 19.4a7.3 7.3 0 0 1 14.2 0"
+              stroke="currentColor"
+              strokeWidth="1.9"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>
+      )
+    return <span className="nav-avatar">{profile.name.trim().charAt(0).toUpperCase() || 'S'}</span>
   }
   // Mask the SVG so the glyph follows `currentColor` (white / active blue)
   return (

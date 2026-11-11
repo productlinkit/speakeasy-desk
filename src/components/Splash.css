@@ -1,0 +1,54 @@
+/* The launch screen: the app's logo on a white page, a bar, one word. */
+
+.splash {
+  display: grid;
+  position: fixed;
+  z-index: 60;
+  inset: 0;
+  align-content: center;
+  justify-items: center;
+  gap: 26px;
+  background: var(--white);
+}
+.splash__logo {
+  width: clamp(190px, 26vw, 300px);
+  height: auto;
+}
+.splash__track {
+  overflow: hidden;
+  width: clamp(180px, 22vw, 240px);
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: #e9eef3;
+}
+.splash__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  /* the live app's bar runs navy into the app's blue */
+  background: linear-gradient(90deg, var(--navy), var(--blue-soft));
+  animation: splash-fill linear forwards;
+}
+.splash__word {
+  margin-top: -12px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+@keyframes splash-fill {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* nothing is actually loading, so a bar that does not move is no less true */
+@media (prefers-reduced-motion: reduce) {
+  .splash__fill {
+    width: 100%;
+    animation: none;
+  }
+}

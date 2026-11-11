@@ -4,6 +4,8 @@ import { TopBar } from '../components/TopBar'
 import { isDailyDone } from '../data/dailyChallenge'
 import { learningItems, user, type LearningItem } from '../data/home'
 import './Home.css'
+import { languageOf } from '../data/addLanguage'
+import { useSession } from '../session'
 
 function ArrowRight() {
   return (
@@ -55,13 +57,15 @@ function ProgressRing({ value }: { value: number }) {
 }
 
 function ProgressCard({ onStartLearning }: { onStartLearning: () => void }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   return (
     <section className="card progress-card">
       <div className="progress-card__body">
         <div className="progress-card__info">
           <span className="lang-pill">
-            <img src={user.language.flag} alt="" />
-            {user.language.name}
+            <img src={lang.flag} alt="" />
+            {lang.name}
           </span>
           <p className="progress-card__days">
             <img src="/assets/icons/fire-grey.svg" alt="" />
@@ -240,6 +244,7 @@ function DiveIntoLearning({ onDive }: { onDive: (key: LearningItem['key']) => vo
 }
 
 export function Home({
+  onNavigate,
   onStartLearning,
   onFindLevel,
   onExplore,
@@ -247,6 +252,7 @@ export function Home({
   onVideoCourses,
   onDive,
 }: {
+  onNavigate: (to: string) => void
   onStartLearning: () => void
   onFindLevel: () => void
   onExplore: () => void
@@ -258,7 +264,7 @@ export function Home({
 
   return (
     <div className="home">
-      <TopBar />
+      <TopBar onNavigate={onNavigate} />
 
       <div className="home-grid">
         <ProgressCard onStartLearning={onStartLearning} />

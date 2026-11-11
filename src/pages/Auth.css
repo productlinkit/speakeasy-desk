@@ -1,0 +1,325 @@
+/* The account screens, widened for a desktop window. The form keeps a reading
+   width whatever the window does; the space beside it carries the same tinted
+   stage as the intro carousel, so the two read as one flow. */
+.au {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px 40px 44px;
+  background: var(--white);
+}
+
+.au__bar {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.au__brand img {
+  width: 136px;
+  height: auto;
+}
+
+.au__deck {
+  display: grid;
+  width: 100%;
+  max-width: 1120px;
+  flex: 1;
+  align-items: center;
+  margin: 0 auto;
+  gap: clamp(32px, 5vw, 76px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* --- the stage, mirroring the one on /splash ------------------------- */
+
+.au__stage {
+  display: grid;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(32px, 4vw, 52px);
+  background: var(--blue-tint);
+  overflow: hidden;
+  place-items: center;
+}
+.au__glow {
+  position: absolute;
+  width: 74%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #cbe8fc;
+  animation: au-pulse 7s ease-in-out infinite;
+}
+.au__art {
+  position: relative;
+  width: 57%;
+}
+.au__art .lottie {
+  width: 100%;
+  /* the animation's own canvas */
+  aspect-ratio: 717 / 800;
+}
+.au__art .lottie__poster {
+  object-position: center;
+}
+@keyframes au-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* --- the form -------------------------------------------------------- */
+
+.au__panel {
+  width: 100%;
+  max-width: 420px;
+  min-width: 0;
+}
+
+.au__title {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(28px, 2.8vw, 38px);
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.au__lead {
+  margin-top: 10px;
+  /* the app's own body grey: a shade darker than --muted, so it clears 4.5:1 */
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.au__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  gap: 16px;
+}
+
+.au__field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.au__label {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+/* the pill the app draws around every field; the children sit in a row so the
+   eye toggle and the dialling code share it rather than stacking */
+.au__box {
+  display: flex;
+  height: 48px;
+  align-items: center;
+  padding: 0 18px;
+  border: 1px solid #e2e8ef;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  gap: 10px;
+  transition: border-color 0.14s ease, box-shadow 0.14s ease;
+}
+.au__box:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgb(67 170 239 / 0.18);
+}
+.au__box.is-bad {
+  border-color: #ef4444;
+}
+.au__box.is-bad:focus-within {
+  box-shadow: 0 0 0 3px rgb(239 68 68 / 0.18);
+}
+.au__box input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  outline: none;
+}
+.au__box input::placeholder {
+  color: #9aa3ad;
+}
+/* the field pill already shows focus, so the control inside must not draw a
+   second ring on top of it */
+.au__box input:focus-visible,
+.au__dial:focus-visible {
+  outline: none;
+}
+
+.au__dial {
+  flex: none;
+  max-width: 96px;
+  padding: 0 6px 0 0;
+  border: 0;
+  border-right: 1px solid #e2e8ef;
+  margin-right: 2px;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.au__eye {
+  display: grid;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #9aa3ad;
+  place-items: center;
+  transition: color 0.14s ease;
+}
+.au__eye:hover {
+  color: var(--ink);
+}
+
+.au__error {
+  padding-left: 18px;
+  color: #d32f2f;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* right-aligned under the password, as in the app */
+.au__forgot {
+  align-self: flex-end;
+  margin-top: -6px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+}
+.au__forgot:hover {
+  text-decoration: underline;
+}
+
+.au__submit {
+  margin-top: 6px;
+}
+
+/* a rule either side of the word */
+.au__or {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  color: #6c7278;
+  font-size: 14px;
+  gap: 14px;
+}
+.au__or::before,
+.au__or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #e2e8ef;
+}
+
+.au__google {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e8ef;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  box-shadow: 0 var(--lift-btn) 0 #e7edf3;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 600;
+  gap: 10px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.au__google:hover {
+  background: #f8fbfe;
+}
+.au__google:active {
+  transform: translateY(var(--lift-btn));
+  box-shadow: 0 0 0 #e7edf3;
+}
+
+.au__foot {
+  margin-top: 22px;
+  color: #6c7278;
+  font-size: 15px;
+  text-align: center;
+}
+.au__foot button {
+  color: var(--navy);
+  font-weight: 700;
+}
+.au__foot button:hover {
+  text-decoration: underline;
+}
+
+/* the state the reset form leaves behind */
+.au__sent {
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding: 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  gap: 10px;
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.55;
+}
+.au__sentHead {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+}
+.au__sent .btn {
+  margin-top: 8px;
+}
+
+/* --- narrower windows ------------------------------------------------ */
+
+@media (max-width: 1023px) {
+  .au {
+    padding: 20px 28px 36px;
+  }
+  .au__deck {
+    max-width: 440px;
+    align-content: start;
+    padding-top: clamp(8px, 4vh, 36px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* the picture is the first thing in the source, and there is no room for it
+     beside the form here — the form is what this screen is for */
+  .au__stage {
+    display: none;
+  }
+  .au__panel {
+    max-width: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .au {
+    padding: 16px 20px 28px;
+  }
+  .au__brand img {
+    width: 108px;
+  }
+  .au__title {
+    font-size: clamp(26px, 7vw, 32px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .au * {
+    animation: none !important;
+    transition-duration: 1ms !important;
+  }
+}

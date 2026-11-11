@@ -1,10 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { ResultScreen } from '../components/ResultScreen'
-import { user } from '../data/home'
 import { songGenres, songs, type Song } from '../data/songs'
 import './Quiz.css'
 import './VideoCourses.css'
 import './SongLearning.css'
+import { languageOf } from '../data/addLanguage'
+import { useSession } from '../session'
 
 export type SongStep = 'list' | 'quiz' | 'completion'
 
@@ -13,6 +14,8 @@ type Score = { correct: number; total: number; seconds: number }
 /* ---------------------------------------------------------------- list ---- */
 
 function List({ onOpen, onBack }: { onOpen: (song: Song) => void; onBack: () => void }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   const [query, setQuery] = useState('')
   const [genre, setGenre] = useState(songGenres[0])
 
@@ -34,8 +37,8 @@ function List({ onOpen, onBack }: { onOpen: (song: Song) => void; onBack: () => 
       <p className="vcourses__lead">Select a language to start learning with songs</p>
 
       <span className="vcourses__lang">
-        <img src={user.language.flag} alt="" />
-        {user.language.name}
+        <img src={lang.flag} alt="" />
+        {lang.name}
       </span>
 
       <div className="vsearch">

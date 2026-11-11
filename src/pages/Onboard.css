@@ -1,0 +1,981 @@
+/* The questions a new account answers, and the BOOST screens the flow ends on.
+   Both run full screen — nobody is inside the app yet — and borrow the intro
+   carousel's chrome so the whole sign-up reads as one journey. */
+.fl {
+  --fl-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px 40px 44px;
+  background: var(--white);
+}
+
+.fl__bar {
+  display: flex;
+  width: 100%;
+  max-width: 1120px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  gap: 16px;
+}
+.fl__brand {
+  margin-right: auto;
+}
+.fl__brand img {
+  width: 136px;
+  height: auto;
+}
+.fl__arrow {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--navy);
+  place-items: center;
+  transition: background 0.14s ease;
+}
+.fl__arrow:hover {
+  background: var(--blue-tint);
+}
+/* navy, not the link blue: the blue reaches only 2.6:1 on white */
+.fl__skip {
+  padding: 6px 2px;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+.fl__skip:hover {
+  text-decoration: underline;
+}
+
+.fl__deck {
+  display: grid;
+  width: 100%;
+  max-width: 1120px;
+  flex: 1;
+  align-items: center;
+  margin: 0 auto;
+  gap: clamp(32px, 5vw, 76px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+/* a single centred column, for the screens that are a table or a price list */
+.fl__column {
+  display: flex;
+  width: 100%;
+  max-width: 640px;
+  flex: 1;
+  flex-direction: column;
+  align-content: start;
+  margin: 0 auto;
+  padding-top: clamp(16px, 5vh, 48px);
+}
+
+.fl__stage {
+  display: grid;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(32px, 4vw, 52px);
+  background: var(--blue-tint);
+  overflow: hidden;
+  place-items: center;
+}
+.fl__stage--gift {
+  background: #f9f1ff;
+}
+.fl__glow {
+  position: absolute;
+  width: 74%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #cbe8fc;
+  animation: fl-pulse 7s ease-in-out infinite;
+}
+.fl__stage--gift .fl__glow {
+  background: #eed9fe;
+}
+.fl__art {
+  position: relative;
+  width: 64%;
+}
+.fl__stage--plan {
+  background: #b7defa;
+}
+.fl__art--plan {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.fl__art--plan .lottie {
+  width: 100%;
+  height: 100%;
+}
+.fl__art .lottie__poster {
+  object-position: center;
+}
+@keyframes fl-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.fl__panel {
+  min-width: 0;
+}
+
+.fl__actions {
+  display: flex;
+  align-items: center;
+  margin-top: clamp(20px, 2.6vw, 30px);
+  gap: 18px;
+}
+.fl__actions--stack {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+.fl__back {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.16s ease;
+}
+.fl__back:hover {
+  color: var(--ink);
+}
+.fl__next:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.fl__next:disabled:active {
+  transform: none;
+  box-shadow: 0 var(--lift-btn) 0 var(--navy-shade);
+}
+.fl__stay {
+  padding: 6px;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+.fl__stay:hover {
+  text-decoration: underline;
+}
+
+/* --- the questions --------------------------------------------------- */
+
+.flq__step {
+  color: var(--muted);
+  font-size: 14px;
+}
+.flq__step strong {
+  color: var(--ink);
+}
+.flq__track {
+  height: 8px;
+  margin-top: 10px;
+  border-radius: var(--radius-pill);
+  background: #e8eef4;
+  overflow: hidden;
+}
+.flq__fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--blue);
+  /* the bar catches up with a little overshoot, rather than sliding flatly */
+  transition: width 0.45s var(--fl-ease);
+}
+
+.flq__body {
+  margin-top: clamp(18px, 2.4vw, 26px);
+}
+.flq__body[data-dir='1'] {
+  --fl-dir: 1;
+}
+.flq__body[data-dir='-1'] {
+  --fl-dir: -1;
+}
+.flq__body > * {
+  animation: fl-rise 0.46s var(--fl-ease) backwards;
+}
+.flq__body > *:nth-child(2) {
+  animation-delay: 0.07s;
+}
+.flq__body > *:nth-child(3) {
+  animation-delay: 0.12s;
+}
+@keyframes fl-rise {
+  from {
+    opacity: 0;
+    transform: translate(calc(var(--fl-dir, 1) * 22px), 8px);
+  }
+}
+
+.flq__banner {
+  margin-bottom: 12px;
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: #f6edff;
+  color: var(--purple-shade);
+  font-size: 14px;
+  font-weight: 600;
+}
+.flq__question {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(23px, 2.2vw, 31px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.flq__langs {
+  display: grid;
+  margin: 20px 0 0;
+  padding: 0;
+  gap: 12px;
+  /* seven languages: four and three sits better than three, three and a stray */
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+}
+/* the flag fills the tile, the badge sits in the middle of it and the code
+   rides a tab flush with the bottom edge — each placed, not stacked, so they
+   cannot land on top of one another */
+.flang {
+  display: block;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid #e4eaf0;
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  overflow: hidden;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.14s ease;
+}
+.flang__flag {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.flang__code {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 50%;
+  width: 70%;
+  padding: 6px 0;
+  border-radius: 12px 12px 0 0;
+  background: var(--blue-soft);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  transform: translateX(-50%);
+}
+.flang__tick {
+  display: grid;
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: var(--white);
+  place-items: center;
+  transform: translate(-50%, -50%);
+}
+/* the chip that says a language is already yours — a corner mark, so it is
+   not mistaken for the tick in the middle that means "this is the one" */
+.flang__added {
+  display: grid;
+  position: absolute;
+  z-index: 1;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  /* filled grey rather than white: on a pale flag a white chip vanished, and
+     grey keeps it apart from the blue tick that means "this is the one" */
+  background: #6b7a86;
+  color: var(--white);
+  box-shadow: 0 0 0 2px var(--white);
+  place-items: center;
+}
+.flang__added svg {
+  width: 13px;
+  height: 13px;
+}
+/* the language already being learnt is marked, not shut: picking it again is
+   allowed and simply keeps it */
+.flang.is-current .flang__code {
+  background: #8fa2b1;
+}
+.flang:hover {
+  border-color: var(--blue-soft);
+}
+.flang.is-on {
+  border-color: var(--blue);
+  box-shadow: 0 5px 0 var(--blue-soft);
+}
+.flang.is-on .flang__code {
+  background: var(--blue);
+}
+.flq__note {
+  margin-top: 12px;
+  color: #6c7278;
+  font-size: 13px;
+}
+.flang:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #e7edf3;
+}
+
+.flq__choices {
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0 0;
+  padding: 0;
+  gap: 10px;
+  list-style: none;
+}
+.flopt {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  padding: 8px 16px;
+  border: 2px solid #e4eaf0;
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 4px 0 #e7edf3;
+  gap: 12px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.14s ease,
+    background 0.14s ease;
+}
+/* the number that picks this option from the keyboard */
+.flopt__key {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border-radius: 8px;
+  background: #eef3f8;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  place-items: center;
+}
+.flopt__tick {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--blue);
+  color: var(--white);
+  opacity: 0;
+  place-items: center;
+  transform: scale(0.4);
+  transition: opacity 0.18s ease, transform 0.22s var(--fl-ease);
+}
+.flopt.is-on {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+}
+.flopt.is-on .flopt__key {
+  background: var(--blue);
+  color: var(--white);
+}
+.flopt.is-on .flopt__tick {
+  opacity: 1;
+  transform: scale(1);
+}
+.flopt:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #e7edf3;
+}
+
+.flq__skipq {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+.flq__skipq:hover {
+  color: var(--ink);
+  text-decoration: underline;
+}
+
+/* --- BOOST ----------------------------------------------------------- */
+
+.flb__badge {
+  padding: 7px 14px;
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  background: #1c6ea4;
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.flb__mark {
+  color: var(--blue);
+}
+.flb__art {
+  position: relative;
+  width: 62%;
+  animation: fl-gift 4.5s ease-in-out infinite;
+}
+@keyframes fl-gift {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.flb__lead {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(23px, 2.2vw, 31px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.flb__list {
+  display: flex;
+  flex-direction: column;
+  margin: clamp(20px, 2.4vw, 28px) 0 0;
+  padding: 0;
+  gap: 14px;
+  list-style: none;
+}
+.flb__list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--ink);
+  font-size: 15px;
+}
+.flb__list img {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  object-fit: contain;
+}
+.flb__compare {
+  margin-top: 18px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 700;
+}
+.flb__compare:hover {
+  text-decoration: underline;
+}
+
+/* --- the comparison table -------------------------------------------- */
+
+.flc__title {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-wrap: balance;
+}
+.flc__table {
+  width: 100%;
+  margin-top: clamp(24px, 3vw, 36px);
+  border-collapse: collapse;
+}
+.flc__table th,
+.flc__table td {
+  padding: 14px 8px;
+  border-bottom: 1px solid #e4eaf0;
+  text-align: center;
+}
+.flc__table thead th {
+  border-bottom: 0;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+}
+.flc__table tbody th {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  text-align: left;
+}
+.flc__table td {
+  width: 110px;
+}
+.flc__paid {
+  display: inline-block;
+  min-width: 108px;
+  padding: 7px 14px;
+  border: 2px solid var(--blue);
+  border-radius: 12px;
+  background: #1c6ea4;
+  color: var(--white);
+  font-size: 13px;
+}
+.flc__yes {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: var(--white);
+  place-items: center;
+}
+.flc__no {
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  border-radius: 2px;
+  background: #c8d2de;
+  vertical-align: middle;
+}
+
+/* --- the plans -------------------------------------------------------- */
+
+.flp__grid {
+  display: grid;
+  margin: clamp(24px, 3vw, 36px) 0 0;
+  padding: 0;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  list-style: none;
+}
+.flp__card {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  padding: 16px 18px;
+  border: 2px solid var(--blue-soft);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  gap: 12px;
+  text-align: left;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.14s ease,
+    background 0.14s ease;
+}
+.flp__head,
+.flp__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.flp__head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e4eaf0;
+}
+.flp__name {
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+}
+.flp__rate {
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.flp__cycle {
+  color: var(--blue);
+  font-size: 14px;
+}
+.flp__total {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.flp__card.is-on {
+  border-color: var(--blue);
+  background: var(--blue-tint);
+}
+.flp__card:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 #e7edf3;
+}
+.flp__note {
+  min-height: 22px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 14px;
+  text-align: center;
+}
+
+
+/* --- which price list ------------------------------------------------- */
+
+/* The app has no currency control: /en/ is quoted in dollars and /in/ in
+   rupees, and each portal only ever shows its own list. The switch names the
+   portal under the code so the two are not read as a conversion. */
+.flp__cur {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: clamp(18px, 2.4vw, 26px);
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.flp__curLabel {
+  color: #6c7278;
+  font-size: 14px;
+}
+.flp__seg {
+  display: flex;
+  padding: 4px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  gap: 4px;
+}
+.flp__segBtn {
+  display: grid;
+  padding: 7px 18px;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  justify-items: center;
+  line-height: 1.2;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.flp__segBtn:hover {
+  background: var(--blue-tint);
+}
+.flp__segBtn.is-on {
+  background: var(--blue);
+  color: var(--white);
+}
+.flp__segPortal {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.78;
+}
+
+/* --- the payment screen ----------------------------------------------- */
+
+/* Nothing is chosen here any more — Stripe asks for the card — so the screen
+   is one narrow column that states the order and hands over. */
+.flpay__deck {
+  display: grid;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  align-content: center;
+  gap: 0;
+  min-height: calc(100dvh - 190px);
+}
+.flpay__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 700;
+  text-align: center;
+}
+.flpay__lead {
+  margin: 8px 0 0;
+  color: #6c7278;
+  text-align: center;
+}
+.flpay__handover {
+  margin: 18px 0 16px;
+  color: #6c7278;
+  font-size: 14px;
+  line-height: 1.55;
+  text-align: center;
+}
+
+/* --- how the payment landed ------------------------------------------- */
+
+/* Three screens, one skeleton: the stage changes colour and glyph, nothing
+   else moves. Read one after another they are plainly the same screen with a
+   different answer on it. */
+.flres--success {
+  --res-tint: var(--blue-tint);
+  --res-ink: #1c6ea4;
+}
+.flres--pending {
+  --res-tint: #fff4e8;
+  --res-ink: var(--orange);
+}
+.flres--failed {
+  --res-tint: #fdeeee;
+  --res-ink: #d32f2f;
+}
+
+.flres__deck {
+  display: grid;
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  align-content: center;
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+  min-height: calc(100dvh - 170px);
+}
+
+.flres__stage {
+  position: relative;
+  display: grid;
+  aspect-ratio: 1;
+  border-radius: clamp(32px, 4vw, 52px);
+  background: var(--res-tint);
+  place-items: center;
+}
+.flres__fox {
+  width: 62%;
+  animation: flres-fox 0.6s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+@keyframes flres-fox {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+}
+/* With nothing to celebrate there is no fox to draw, so the mark itself is the
+   picture — drawn large, straight onto the tint. A small badge adrift in an
+   empty plate reads as a screen that failed to load its illustration. */
+.flres__glyph {
+  display: grid;
+  width: 46%;
+  height: 46%;
+  color: var(--res-ink);
+  place-items: center;
+  /* the one moment of motion: the answer arrives, then everything is still */
+  animation: flres-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+  animation-delay: 0.12s;
+}
+.flres__glyph svg {
+  width: 100%;
+  height: 100%;
+}
+/* on success the fox owns the stage, so the mark steps aside into a corner */
+.flres--success .flres__glyph {
+  position: absolute;
+  right: 11%;
+  bottom: 11%;
+  width: clamp(72px, 9vw, 104px);
+  height: clamp(72px, 9vw, 104px);
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 6px 0 rgba(28, 71, 100, 0.08);
+}
+.flres--success .flres__glyph svg {
+  width: 56%;
+  height: 56%;
+}
+@keyframes flres-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+
+.flres__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.6vw, 40px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.flres__lead {
+  margin: 10px 0 0;
+  max-width: 46ch;
+  color: #6c7278;
+  line-height: 1.55;
+}
+
+.flrec {
+  margin: clamp(20px, 2.6vw, 28px) 0 0;
+  padding: 18px 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+}
+.flrec div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 7px 0;
+  gap: 16px;
+}
+.flrec dt {
+  color: #6c7278;
+  font-size: 14px;
+}
+.flrec dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+.flrec__sum {
+  margin-top: 4px;
+  padding-top: 12px !important;
+  border-top: 1px solid #e4eaf0;
+}
+.flrec__sum dd {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+}
+.flrec__ref {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.flres__second {
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--navy);
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.18s ease;
+}
+.flres__second:hover {
+  background: var(--res-tint);
+}
+.flres__note {
+  min-height: 20px;
+  margin: 10px 0 0;
+  color: #6c7278;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* the way to the other two answers, on the payment screen */
+.flpay__slice {
+  margin: 14px 0 0;
+  color: #6c7278;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+.flpay__slice button {
+  background: none;
+  color: var(--navy);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* --- narrower windows ------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  .fl {
+    padding: 20px 28px 36px;
+  }
+  .flres__deck {
+    max-width: 520px;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    text-align: center;
+  }
+  .flres__stage {
+    width: min(300px, 70vw);
+  }
+  .flres__lead {
+    margin-inline: auto;
+  }
+  .flrec {
+    width: 100%;
+    text-align: left;
+  }
+  .fl__deck {
+    max-width: 520px;
+    align-content: start;
+    padding-top: clamp(8px, 3vh, 28px);
+    gap: 24px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* the picture is the first thing in the source, and the questions are what
+     this screen is for — so it steps aside rather than pushing them down */
+  .fl__deck .fl__stage {
+    display: none;
+  }
+  .fl__brand img {
+    width: 118px;
+  }
+}
+
+@media (max-width: 767px) {
+  .fl {
+    padding: 16px 20px 28px;
+  }
+  .fl__brand img {
+    width: 108px;
+  }
+  .flq__langs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .fl__actions {
+    display: grid;
+    gap: 8px;
+    justify-items: center;
+  }
+  .fl__next {
+    order: -1;
+    width: 100%;
+  }
+  .flc__table tbody th {
+    font-size: 14px;
+  }
+  .flc__table td {
+    width: 72px;
+  }
+  .flc__paid {
+    min-width: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .flres__deck {
+    min-height: 0;
+    padding-top: 12px;
+  }
+  .flres__stage {
+    width: min(220px, 60vw);
+  }
+  .flp__seg {
+    width: 100%;
+  }
+  .flp__segBtn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fl *,
+  .fl *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+  }
+}

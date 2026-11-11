@@ -1,8 +1,9 @@
 import { useMemo, useState } from 'react'
 import { VideoPlayer } from '../components/VideoPlayer'
-import { user } from '../data/home'
 import { videoCourses, videoReward, type VideoCourse } from '../data/videoCourses'
 import './VideoCourses.css'
+import { languageOf } from '../data/addLanguage'
+import { useSession } from '../session'
 
 export type VideoStep = 'list' | 'player' | 'reward'
 
@@ -27,6 +28,8 @@ function List({
   onOpen: (course: VideoCourse) => void
   onBack: () => void
 }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   const [query, setQuery] = useState('')
 
   const results = useMemo(() => {
@@ -47,8 +50,8 @@ function List({
       <p className="vcourses__lead">Select a language to start learning with video courses</p>
 
       <span className="vcourses__lang">
-        <img src={user.language.flag} alt="" />
-        {user.language.name}
+        <img src={lang.flag} alt="" />
+        {lang.name}
       </span>
 
       <div className="vsearch">

@@ -118,7 +118,7 @@ function Board({ onNavigate }: { onNavigate: (to: string) => void }) {
   return (
     <div className="lg">
       <div className="lg__main">
-        <TopBar />
+        <TopBar onNavigate={onNavigate} />
         <section className="lghero">
           <img className="lghero__badge" src={badge(tier)} alt="" />
           <h1>{tier.name}</h1>

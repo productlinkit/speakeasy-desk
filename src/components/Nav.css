@@ -11,6 +11,11 @@
   -webkit-mask-size: contain;
 }
 
+.nav-avatar--guest {
+  background: #93a1ab;
+  color: var(--white);
+}
+
 .nav-avatar {
   display: grid;
   place-items: center;

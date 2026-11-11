@@ -1,0 +1,343 @@
+/* The intro carousel the app shows at /en/splash, widened for a desktop window.
+   The page stays white, as in the app; the one bold thing is the stage holding
+   the fox, and it changes colour as you advance. */
+.ob {
+  /* a touch of overshoot at the end — the app's own springy feel */
+  --ob-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 20px 40px 44px;
+  background: var(--white);
+}
+
+/* one tint, one glow and one accent per slide */
+.ob--blue {
+  --ob-tint: #ecf7fd;
+  --ob-glow: #cbe8fc;
+  --ob-accent: var(--blue-soft);
+}
+.ob--violet {
+  --ob-tint: #f1f0fe;
+  --ob-glow: #ddd9fb;
+  --ob-accent: var(--violet);
+}
+.ob--purple {
+  --ob-tint: #f9f1ff;
+  --ob-glow: #eed9fe;
+  --ob-accent: var(--purple);
+}
+
+.ob__bar {
+  display: flex;
+  width: 100%;
+  max-width: 1120px;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.ob__brand {
+  width: 136px;
+  height: auto;
+}
+
+/* navy, as in the app — the blue the rest of the slice uses for links only
+   reaches 2.6:1 on white, and this is the one way out of the carousel */
+.ob__skip {
+  position: relative;
+  padding: 6px 2px;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+/* the rule draws itself in from the left rather than blinking on */
+.ob__skip::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  left: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.22s var(--ob-ease);
+}
+.ob__skip:hover::after {
+  transform: scaleX(1);
+}
+
+.ob__deck {
+  display: grid;
+  width: 100%;
+  max-width: 1120px;
+  flex: 1;
+  align-items: center;
+  margin: 0 auto;
+  gap: clamp(32px, 5vw, 76px);
+  grid-template-columns: minmax(0, 1.04fr) minmax(0, 1fr);
+}
+
+/* --- the stage ------------------------------------------------------- */
+
+.ob__stage {
+  display: grid;
+  position: relative;
+  /* the illustrations are square, so the stage is too: nothing is cropped */
+  aspect-ratio: 1 / 1;
+  border-radius: clamp(32px, 4vw, 52px);
+  background: var(--ob-tint);
+  cursor: grab;
+  overflow: hidden;
+  place-items: center;
+  touch-action: pan-y;
+  transition: background 0.42s ease;
+}
+.ob__stage:active {
+  cursor: grabbing;
+}
+
+.ob__glow {
+  position: absolute;
+  width: 74%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ob-glow);
+  animation: ob-pulse 7s ease-in-out infinite;
+  transition: background 0.42s ease;
+}
+
+.ob__art {
+  position: relative;
+  /* per scene, because each paints a different share of its own canvas */
+  width: var(--ob-fill, 64%);
+  animation: ob-art-in 0.56s var(--ob-ease) backwards;
+}
+.ob__art[data-dir='1'] {
+  --ob-dir: 1;
+}
+.ob__art[data-dir='-1'] {
+  --ob-dir: -1;
+}
+.ob__art .lottie {
+  width: 100%;
+  /* each scene is drawn on its own canvas, so the box takes that canvas's
+     shape rather than one hard-coded ratio */
+  aspect-ratio: var(--ob-canvas, 1 / 1);
+}
+/* the painted stand-in is squared off by the box above; centre it rather than
+   letting the player's own bottom-left default pull it into a corner */
+.ob__art .lottie__poster {
+  object-position: center;
+}
+
+@keyframes ob-art-in {
+  from {
+    opacity: 0;
+    transform: translateX(calc(var(--ob-dir, 1) * 52px)) scale(0.94);
+  }
+}
+@keyframes ob-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* --- the panel ------------------------------------------------------- */
+
+.ob__panel {
+  min-width: 0;
+}
+
+.ob__steps {
+  display: flex;
+  /* a list carries 40px of inline-start padding of its own */
+  margin: 0 0 clamp(18px, 2.4vw, 26px);
+  padding: 0;
+  gap: 7px;
+  list-style: none;
+}
+.ob__step button {
+  display: grid;
+  padding: 8px 0;
+  place-items: center;
+}
+.ob__dot {
+  display: block;
+  width: 8px;
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  transition: width 0.42s var(--ob-ease), background 0.32s ease, transform 0.16s ease;
+}
+/* the dot for the slide you are on stretches into a bar in that slide's colour */
+.ob__step.is-on .ob__dot {
+  width: 38px;
+  background: var(--ob-accent);
+}
+.ob__step button:hover .ob__dot {
+  transform: scaleY(1.6);
+}
+
+.ob__copy h1 {
+  color: var(--navy);
+  font-family: var(--font-display);
+  font-size: clamp(30px, 3.2vw, 46px);
+  font-weight: 700;
+  line-height: 1.14;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.ob__copy p {
+  max-width: 48ch;
+  margin-top: 16px;
+  /* the splash's own grey, a shade darker than --muted so this 17px lead
+     clears 4.5:1 rather than sitting just under it */
+  color: #6c7278;
+  font-size: 17px;
+  line-height: 1.6;
+}
+/* the two lines arrive just behind the picture, one after the other */
+.ob__copy > * {
+  animation: ob-rise 0.52s var(--ob-ease) backwards;
+}
+.ob__copy h1 {
+  animation-delay: 0.06s;
+}
+.ob__copy p {
+  animation-delay: 0.14s;
+}
+@keyframes ob-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.ob__actions {
+  display: flex;
+  align-items: center;
+  margin-top: clamp(24px, 3vw, 36px);
+  gap: 20px;
+}
+.ob__back {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  transition: color 0.16s ease;
+}
+.ob__back:hover {
+  color: var(--ink);
+}
+/* the arrow leans the way the button is about to take you */
+.ob__arrow {
+  transition: transform 0.18s var(--ob-ease);
+}
+.ob__next:hover .ob__arrow {
+  transform: translateX(3px);
+}
+
+/* --- narrower windows ------------------------------------------------ */
+
+@media (max-width: 1023px) {
+  .ob {
+    padding: 20px 28px 36px;
+  }
+  .ob__deck {
+    max-width: 560px;
+    align-content: center;
+    gap: clamp(20px, 4vw, 34px);
+    grid-template-columns: minmax(0, 1fr);
+    text-align: center;
+  }
+  .ob__copy p {
+    margin-inline: auto;
+  }
+  .ob__steps,
+  .ob__actions {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 767px) {
+  .ob {
+    padding: 16px 20px 28px;
+  }
+  .ob__bar {
+    margin-bottom: 4px;
+  }
+  .ob__brand {
+    width: 108px;
+  }
+  .ob__stage {
+    /* edge to edge, the way the app runs it */
+    width: calc(100% + 40px);
+    margin-inline: -20px;
+    border-radius: 0;
+    background: none;
+  }
+  .ob__glow {
+    display: none;
+  }
+  /* no tinted stage framing them here, so the scenes run larger — as they do
+     in the app, where the illustration carries the top half of the screen */
+  .ob__art {
+    width: calc(var(--ob-fill, 64%) * 1.25);
+  }
+  .ob__copy h1 {
+    font-size: clamp(26px, 7vw, 32px);
+  }
+  .ob__copy p {
+    margin-top: 12px;
+    font-size: 15px;
+  }
+  .ob__actions {
+    display: grid;
+    margin-top: 22px;
+    gap: 6px;
+    /* a grid centred by justify-content shrinks to its content, and the
+       button below has to run the full width */
+    justify-content: stretch;
+    /* Next first, the way the app stacks them */
+    grid-auto-flow: row;
+  }
+  .ob__back {
+    order: 2;
+    padding: 8px;
+  }
+  .ob__next {
+    order: 1;
+    width: 100%;
+    height: 48px;
+  }
+}
+
+/* Short windows — a laptop at 1440×700, say — where a square stage would
+   push the button off the bottom. */
+@media (min-width: 1024px) and (max-height: 760px) {
+  .ob {
+    --ob-stage-h: min(62vh, 460px);
+  }
+  .ob__stage {
+    aspect-ratio: auto;
+    height: var(--ob-stage-h);
+  }
+  /* the stage is no longer square, so what limits the scene is its height.
+     Capping the width off that height keeps even the tallest canvas — the
+     717×800 one — inside the stage, and sizing by height instead would leave
+     the box's width depending on a child that depends on the box. */
+  .ob__art {
+    width: min(var(--ob-fill, 64%), calc(var(--ob-stage-h) * 0.8));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ob *,
+  .ob *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+  }
+}

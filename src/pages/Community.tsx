@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent } from 'react'
 import { TopBar } from '../components/TopBar'
 import { posts as seedPosts, type Comment, type Post } from '../data/community'
-import { user } from '../data/home'
+import { useSession } from '../session'
 import './Community.css'
 
 export type CommunityStep = 'feed' | 'new'
@@ -146,10 +146,12 @@ function PostCard({ post, onReply }: { post: Post; onReply: (id: number, text: s
 
 function Feed({
   list,
+  onNavigate,
   onNewPost,
   onReply,
 }: {
   list: Post[]
+  onNavigate: (to: string) => void
   onNewPost: () => void
   onReply: (id: number, text: string) => void
 }) {
@@ -167,7 +169,7 @@ function Feed({
 
   return (
     <div className="community">
-      <TopBar />
+      <TopBar onNavigate={onNavigate} />
 
       <div className="csearch">
         <input
@@ -324,12 +326,16 @@ export function Community({
   const [list, setList] = useState<Post[]>(seedPosts)
   const [draft, setDraft] = useState<Draft>(emptyDraft)
   const nextId = useRef(1000)
+  // whatever name Edit Profile was left with, so a post is signed the same way
+  // the profile page is
+  const { profile } = useSession()
+  const me = { name: profile.name, initial: profile.name.trim().charAt(0).toUpperCase() || 'S' }
 
   const reply = (id: number, text: string) => {
     const comment: Comment = {
       id: nextId.current++,
-      author: user.name,
-      initial: user.initial,
+      author: me.name,
+      initial: me.initial,
       tone: '#f97316',
       text,
       when: 'now',
@@ -342,8 +348,8 @@ export function Community({
   const publish = () => {
     const post: Post = {
       id: nextId.current++,
-      author: user.name,
-      initial: user.initial,
+      author: me.name,
+      initial: me.initial,
       tone: '#f97316',
       title: draft.title.trim() || 'Untitled',
       content: draft.body.trim(),
@@ -368,7 +374,14 @@ export function Community({
     )
   }
 
-  return <Feed list={list} onNewPost={() => onNavigate('/community/new-post')} onReply={reply} />
+  return (
+    <Feed
+      list={list}
+      onNavigate={onNavigate}
+      onNewPost={() => onNavigate('/community/new-post')}
+      onReply={reply}
+    />
+  )
 }
 
 /* --------------------------------------------------------------- bits ---- */

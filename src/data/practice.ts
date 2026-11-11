@@ -4,7 +4,7 @@
 // The page leads with one feature — the call — and lays the rest out around it:
 // the course you are mid-way through, the other ways to practise, and the
 // languages on the account.
-import { languages } from './addLanguage'
+import { languageLabels, languages } from './addLanguage'
 import { renald } from './tutor'
 
 export type Tone = 'blue' | 'purple' | 'violet' | 'navy'
@@ -71,18 +71,7 @@ export const skills: Skill[] = [
   },
 ]
 
-/** the wizard ships codes; these are the names to print beside the flags */
-const languageNames: Record<string, string> = {
-  CHN: 'Chinese',
-  ENG: 'English',
-  FRA: 'French',
-  GER: 'German',
-  JPN: 'Japanese',
-  ARA: 'Arabic',
-  ESP: 'Spanish',
-}
-
 export const languageRow = languages.map((lang) => ({
   ...lang,
-  name: languageNames[lang.code] ?? lang.code,
+  name: languageLabels[lang.code] ?? lang.code,
 }))

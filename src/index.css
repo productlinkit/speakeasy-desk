@@ -44,6 +44,9 @@
   --violet: #8f87f1;
   --violet-shade: #7a6fd9;
   --orange: #ef6c00;
+  /* the Weekly Time Spent card on the profile, sampled off the live app */
+  --amber: #f0b100;
+  --amber-shade: #c08d01;
   --muted: #6b7a86;
 
   /* 3D "pressed" shadow used by every card & button in the app */

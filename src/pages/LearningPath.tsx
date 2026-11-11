@@ -12,6 +12,8 @@ import {
   type Unit,
 } from '../data/path'
 import './LearningPath.css'
+import { languageOf } from '../data/addLanguage'
+import { useSession } from '../session'
 
 /* ---------------- icons ---------------- */
 
@@ -274,13 +276,20 @@ function Node({
 /* ---------------- right rail ---------------- */
 
 function Rail({ onNavigate }: { onNavigate: (to: string) => void }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   const dailyDone = isDailyDone()
 
   return (
     <aside className="rail" aria-label="Your progress">
       <div className="rail__stats">
-        <button type="button" className="rail__flag" aria-label="Change language">
-          <img src={user.language.flag} alt="" />
+        <button
+          type="button"
+          className="rail__flag"
+          aria-label={`${lang.name} — change language`}
+          onClick={() => onNavigate('/profile/settings/language')}
+        >
+          <img src={lang.flag} alt="" />
         </button>
         <span className="rail__stat" title="Day streak">
           <img src="/assets/icons/fire-grey.svg" alt="" />

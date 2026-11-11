@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react'
 import { QuizRunner, type QuizResult } from '../components/QuizRunner'
 import { ResultScreen } from '../components/ResultScreen'
-import { user } from '../data/home'
 import { genres, movieResult, movies, type Movie } from '../data/movies'
 import './VideoCourses.css'
+import { languageOf } from '../data/addLanguage'
+import { useSession } from '../session'
 
 export type MovieStep = 'list' | 'quiz' | 'completion'
 
@@ -22,6 +23,8 @@ function BackArrow() {
 }
 
 function List({ onOpen, onBack }: { onOpen: (movie: Movie) => void; onBack: () => void }) {
+  const { profile } = useSession()
+  const lang = languageOf(profile.language)
   const [query, setQuery] = useState('')
   const [genre, setGenre] = useState(genres[0])
 
@@ -43,8 +46,8 @@ function List({ onOpen, onBack }: { onOpen: (movie: Movie) => void; onBack: () =
       <p className="vcourses__lead">Select a language to start learning with movie &amp; series</p>
 
       <span className="vcourses__lang">
-        <img src={user.language.flag} alt="" />
-        {user.language.name}
+        <img src={lang.flag} alt="" />
+        {lang.name}
       </span>
 
       <div className="vsearch">

@@ -72,3 +72,32 @@ export const steps: Step[] = [
 
 export const totalSteps = steps.length + 1
 export const languageQuestion = 'Which language would you like to learn?'
+
+/**
+ * The names of the languages themselves.
+ *
+ * The app's own settings list names countries instead — China, France, Japan —
+ * and that screen keeps its wording. Everywhere a sentence needs the language
+ * ("Learning Chinese") these are the words.
+ */
+export const languageLabels: Record<string, string> = {
+  CHN: 'Chinese',
+  ENG: 'English',
+  FRA: 'French',
+  GER: 'German',
+  JPN: 'Japanese',
+  ARA: 'Arabic',
+  ESP: 'Spanish',
+}
+
+/**
+ * What to show for a language code: the flag and the name the app prints.
+ *
+ * Every screen that names the language being learnt goes through here, so the
+ * flag in the top bar, the chip on Practice and the tick in Settings cannot
+ * drift apart from what the account actually picked.
+ */
+export function languageOf(code: string) {
+  const found = languages.find((l) => l.code === code) ?? languages[1]
+  return { code: found.code, flag: found.flag, name: languageLabels[found.code] ?? found.code }
+}

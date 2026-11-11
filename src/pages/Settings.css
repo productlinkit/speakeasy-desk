@@ -1,0 +1,661 @@
+/* Settings — the rail of rows, and the panel each one opens */
+
+.pset {
+  display: grid;
+  grid-template-columns: 330px minmax(0, 1fr);
+  gap: 36px;
+  align-items: start;
+}
+.pset__rail {
+  display: grid;
+  gap: 22px;
+  position: sticky;
+  top: 24px;
+}
+.pset__group {
+  display: grid;
+  gap: 10px;
+}
+.pset__group h2 {
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+}
+.pset__card {
+  display: grid;
+  border: 2px solid #e4eaf0;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  overflow: hidden;
+}
+.pset__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  color: #202b33;
+  font-size: 16px;
+  text-align: left;
+  transition: background 0.14s ease, color 0.14s ease;
+}
+.pset__row + .pset__row {
+  border-top: 1px solid #eef2f6;
+}
+.pset__row svg {
+  flex: none;
+  color: #9aa6b0;
+}
+.pset__row:hover {
+  background: var(--blue-tint);
+}
+.pset__row.is-on {
+  background: var(--blue-tint);
+  color: var(--navy);
+  font-weight: 600;
+}
+.pset__row.is-on svg {
+  color: var(--navy);
+}
+
+/* The quiet pill: the two buttons that undo something. They are the app's own
+   shape — a white card you press — kept deliberately below the navy primary,
+   because neither Logout nor Cancel is the thing a settings page wants most. */
+.pset__logout,
+.psub__cancel,
+.psub__resume {
+  width: 100%;
+  max-width: 420px;
+  height: 50px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: var(--pquiet-ink, var(--navy));
+  font-size: 16px;
+  font-weight: 700;
+  box-shadow: 0 4px 0 #e7edf3;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.pset__logout:hover,
+.psub__cancel:hover,
+.psub__resume:hover {
+  background: #fbfdff;
+}
+.pset__logout:active,
+.psub__cancel:active,
+.psub__resume:active {
+  transform: translateY(4px);
+  box-shadow: 0 0 0 #e7edf3;
+}
+
+
+.pset__panel {
+  max-width: 660px;
+}
+/* the rail is already the way back on a wide window */
+.pset__panel .prsub__back {
+  display: none;
+}
+
+.pset__note {
+  margin-top: 14px;
+  color: #2e7d32;
+  font-size: 14px;
+  font-weight: 600;
+}
+.pset__note--bad {
+  color: #d32f2f;
+}
+.pset__save {
+  margin-top: 18px;
+  max-width: 420px;
+}
+
+/* ---------- Fields ---------- */
+
+.pfield {
+  display: grid;
+  gap: 8px;
+  margin-top: 18px;
+}
+.pfield > span {
+  color: #6c7278;
+  font-size: 14px;
+}
+.pfield input,
+.pfield select {
+  width: 100%;
+  height: 52px;
+  padding: 0 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: #202b33;
+  font-family: inherit;
+  font-size: 16px;
+}
+.pfield input::placeholder {
+  color: #a8b3bd;
+}
+.pfield input:focus-visible,
+.pfield select:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 1px;
+}
+.pfield__pair {
+  display: flex;
+  gap: 10px;
+}
+.pfield__pair > .pfield__dial {
+  width: 108px;
+  flex: none;
+  padding: 0 8px 0 16px;
+}
+.pfield__pair > input {
+  width: auto;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- Edit Profile ---------- */
+
+.pedit__cover {
+  position: relative;
+  margin-bottom: 50px;
+}
+.pedit__cover img {
+  display: block;
+  width: 100%;
+  height: 170px;
+  object-fit: cover;
+  border-radius: 26px;
+}
+.pedit__avatar {
+  position: absolute;
+  left: 22px;
+  bottom: -40px;
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  border: 5px solid var(--bg);
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 38px;
+  font-weight: 700;
+}
+.pedit__photo {
+  color: #6c7278;
+  font-size: 14px;
+}
+
+/* ---------- Manage Subscription ---------- */
+
+.psub {
+  display: grid;
+  gap: 18px;
+  justify-items: start;
+}
+.psub__plan,
+.psub__change {
+  width: 100%;
+  padding: 22px 26px 26px;
+  border-radius: var(--radius-card);
+  color: var(--white);
+}
+.psub__plan {
+  background: var(--blue);
+  box-shadow: 0 var(--lift-card) 0 var(--blue-shade);
+}
+.psub__plan--free {
+  background: #6c7a86;
+  box-shadow: 0 var(--lift-card) 0 #55606a;
+}
+.psub__lead {
+  font-size: 15px;
+}
+.psub__name {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+}
+.psub__expLabel {
+  margin-top: 16px;
+  font-size: 15px;
+}
+.psub__exp {
+  margin-top: 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.psub__change {
+  display: grid;
+  gap: 16px;
+  background: var(--purple);
+  box-shadow: 0 var(--lift-card) 0 var(--purple-shade);
+}
+.psub__change p {
+  font-size: 15px;
+}
+.psub__change .btn {
+  max-width: 420px;
+}
+/* the one place the project's red is a verb */
+.psub__cancel {
+  --pquiet-ink: #d32f2f;
+}
+
+/* ---------- Transaction History ---------- */
+
+.ptx {
+  display: grid;
+  gap: 18px;
+}
+.ptx__rangeHead {
+  color: #6c7278;
+  font-size: 14px;
+}
+.ptx__dates {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ptx__dates .pfield {
+  margin-top: 8px;
+  min-width: 170px;
+  flex: 1;
+}
+.ptx__clear {
+  height: 52px;
+  padding: 0 4px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ptx__chips {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ptx__chip {
+  height: 40px;
+  padding: 0 24px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: #202b33;
+  font-size: 15px;
+  font-weight: 600;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+.ptx__chip:hover {
+  border-color: var(--blue-soft);
+}
+.ptx__chip.is-on {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--white);
+}
+.ptx__month {
+  display: grid;
+  gap: 10px;
+}
+.ptx__month h3 {
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+.ptx__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 22px;
+  border: 2px solid #e4eaf0;
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+}
+.ptx__row strong {
+  display: block;
+  color: #202b33;
+  font-size: 16px;
+  font-weight: 700;
+}
+.ptx__date {
+  color: #6c7278;
+  font-size: 14px;
+}
+.ptx__right {
+  text-align: right;
+}
+.ptx__pill {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+}
+.ptx__pill--success {
+  background: #e6f4ea;
+  color: #2e7d32;
+}
+.ptx__pill--pending {
+  background: #fff3e0;
+  color: #b45309;
+}
+.ptx__pill--failed,
+.ptx__pill--cancelled {
+  background: #fdecea;
+  color: #d32f2f;
+}
+.ptx__end {
+  padding: 10px 0 4px;
+  color: #9aa6b0;
+  font-size: 15px;
+  text-align: center;
+}
+
+/* ---------- App Language ---------- */
+
+.plang__head {
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+}
+.plang__lead {
+  margin-top: 6px;
+  color: #6c7278;
+  font-size: 15px;
+}
+.plang__list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+  margin-top: 18px;
+}
+.plang__row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: #202b33;
+  font-size: 16px;
+  text-align: left;
+  box-shadow: 0 5px 0 #e7edf3;
+  transition: border-color 0.14s ease;
+}
+.plang__row:hover {
+  border-color: var(--blue-soft);
+}
+.plang__row img {
+  width: 40px;
+  height: 40px;
+}
+.plang__mark {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  margin-left: auto;
+  border: 2px solid #c6cfd7;
+  border-radius: 50%;
+}
+.plang__row.is-on {
+  border-color: var(--blue);
+}
+.plang__row.is-on .plang__mark {
+  border-color: var(--navy);
+  background: var(--navy);
+}
+.plang__row.is-on .plang__mark::after {
+  content: '';
+  width: 12px;
+  height: 7px;
+  margin-top: -3px;
+  border-left: 2.5px solid var(--white);
+  border-bottom: 2.5px solid var(--white);
+  transform: rotate(-45deg);
+}
+
+/* ---------- Help Center ---------- */
+
+.phelp__tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.phelp__tab {
+  height: 40px;
+  padding: 0 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: var(--radius-pill);
+  background: var(--white);
+  color: #202b33;
+  font-size: 15px;
+  font-weight: 600;
+}
+.phelp__tab.is-on {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: var(--white);
+}
+.phelp__head {
+  margin-top: 22px;
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+}
+.phelp__list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+  margin-top: 14px;
+}
+.phelp__list li {
+  border: 2px solid #e4eaf0;
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  overflow: hidden;
+}
+.phelp__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 22px;
+  color: #202b33;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+}
+.phelp__sign {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+.phelp__sign::before,
+.phelp__sign::after {
+  content: '';
+  position: absolute;
+  inset: 7px 0 auto;
+  height: 2.5px;
+  border-radius: 2px;
+  background: var(--navy);
+}
+.phelp__sign::after {
+  transform: rotate(90deg);
+  transition: transform 0.18s ease;
+}
+.phelp__sign.is-open::after {
+  transform: rotate(0deg);
+}
+.phelp__a {
+  padding: 0 22px 20px;
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+.phelp__foot {
+  margin-top: 20px;
+  color: #6c7278;
+  font-size: 14px;
+}
+
+/* ---------- Privacy Policy ---------- */
+
+.ppriv {
+  max-width: 68ch;
+}
+.ppriv__updated {
+  color: #9aa6b0;
+  font-size: 14px;
+}
+.ppriv__lead {
+  margin-top: 10px;
+  color: #6c7278;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.ppriv section {
+  margin-top: 26px;
+}
+.ppriv h2 {
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+.ppriv h3 {
+  margin-top: 14px;
+  color: #202b33;
+  font-size: 16px;
+  font-weight: 600;
+}
+.ppriv p {
+  margin-top: 8px;
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.ppriv ul {
+  margin-top: 8px;
+  padding-left: 22px;
+  list-style: disc;
+}
+.ppriv li {
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* ---------- The confirm box ---------- */
+
+.pconf {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.pconf__veil {
+  position: absolute;
+  inset: 0;
+  background: rgb(16 36 54 / 0.42);
+}
+.pconf__box {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  width: min(440px, 100%);
+  padding: 28px 30px 26px;
+  border-radius: 28px;
+  background: var(--white);
+  box-shadow: 0 18px 40px rgb(16 36 54 / 0.22);
+}
+.pconf__box h2 {
+  color: #202b33;
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 700;
+}
+.pconf__box p {
+  color: #6c7278;
+  font-size: 15px;
+  line-height: 1.6;
+}
+.pconf__acts {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 12px;
+}
+.pconf__acts .btn {
+  flex: 1;
+}
+.pconf__danger,
+.pconf__plain {
+  flex: none;
+  color: #d32f2f;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.pconf__plain {
+  color: var(--navy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pset__row,
+  .pset__logout,
+  .psub__cancel,
+  .psub__resume,
+  .ptx__chip,
+  .plang__row,
+  .phelp__sign::after {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .pset {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+  .pset__rail {
+    position: static;
+  }
+  /* one at a time on a phone: the component renders the list, or the thing it
+     opened, so the one that is not on screen is not in the page either */
+  .pset__panel .prsub__back {
+    display: grid;
+  }
+  .pset__panel {
+    max-width: none;
+  }
+}

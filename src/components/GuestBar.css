@@ -1,0 +1,85 @@
+.guestbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+  padding: 14px 20px;
+  border: 2px solid #e4eaf0;
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 5px 0 #e7edf3;
+  /* the one unprompted movement on the page: it arrives once, as the reason
+     the rest of the screen is quiet */
+  animation: guestbar-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+
+@keyframes guestbar-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.guestbar__mascot {
+  width: 56px;
+  /* the drawing sits on its baseline, so crop to the fox and lose the gap */
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.guestbar__head {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.guestbar__lead {
+  margin: 2px 0 0;
+  /* the app's own body grey: --muted does not clear 4.5:1 at this size */
+  color: #6c7278;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.guestbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.guestbar__signup {
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  background: none;
+  color: var(--navy);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease;
+}
+.guestbar__signup:hover {
+  background: var(--blue-tint);
+}
+
+@media (max-width: 767px) {
+  .guestbar {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 14px 16px;
+  }
+  .guestbar__actions {
+    grid-column: 1 / -1;
+    justify-content: stretch;
+  }
+  .guestbar__actions .btn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .guestbar {
+    animation: none;
+  }
+}
